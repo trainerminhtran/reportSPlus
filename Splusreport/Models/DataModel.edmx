@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="SPlusReportModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DearlerFSMUpload">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MNV" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SPlusCode" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Fullname" Type="nvarchar" MaxLength="200" Nullable="false" />
+          <Property Name="Store" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Region" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="SplusActivityUpload">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LoginID" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Jobgroup" Type="nvarchar" MaxLength="50" />
+          <Property Name="ActivityCode" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="AttempEnddate" Type="datetime" Nullable="false" />
+          <Property Name="Score" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreInfors">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ChannelName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Address" Type="nvarchar(max)" />
+          <Property Name="MCSCode" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Function Name="SelectScoreDMX" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="SPlusReportModelStoreContainer">
+          <EntitySet Name="DearlerFSMUpload" EntityType="Self.DearlerFSMUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SplusActivityUpload" EntityType="Self.SplusActivityUpload" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StoreInfors" EntityType="Self.StoreInfors" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SPlusReportModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="DearlerFSMUpload">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="SPlusCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Fullname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="SplusActivityUpload">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LoginID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Jobgroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="ActivityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AttempEnddate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Score" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StoreInfor">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ChannelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MCSCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="SPlusReportEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="DearlerFSMUploads" EntityType="Self.DearlerFSMUpload" />
+          <EntitySet Name="SplusActivityUploads" EntityType="Self.SplusActivityUpload" />
+          <EntitySet Name="StoreInfors" EntityType="Self.StoreInfor" />
+          <FunctionImport Name="SelectScoreDMX" ReturnType="Collection(SPlusReportModel.SelectScoreDMX_Result)" />
+        </EntityContainer>
+        <ComplexType Name="SelectScoreDMX_Result">
+          <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+          <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+          <Property Type="String" Name="Store" Nullable="false" />
+          <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+          <Property Type="Int32" Name="Score" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SPlusReportModelStoreContainer" CdmEntityContainer="SPlusReportEntities">
+          <EntitySetMapping Name="DearlerFSMUploads">
+            <EntityTypeMapping TypeName="SPlusReportModel.DearlerFSMUpload">
+              <MappingFragment StoreEntitySet="DearlerFSMUpload">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MNV" ColumnName="MNV" />
+                <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Store" ColumnName="Store" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SplusActivityUploads">
+            <EntityTypeMapping TypeName="SPlusReportModel.SplusActivityUpload">
+              <MappingFragment StoreEntitySet="SplusActivityUpload">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+                <ScalarProperty Name="Jobgroup" ColumnName="Jobgroup" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="AttempEnddate" ColumnName="AttempEnddate" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StoreInfors">
+            <EntityTypeMapping TypeName="SPlusReportModel.StoreInfor">
+              <MappingFragment StoreEntitySet="StoreInfors">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="MCSCode" ColumnName="MCSCode" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="SelectScoreDMX" FunctionName="SPlusReportModel.Store.SelectScoreDMX">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="SPlusReportModel.SelectScoreDMX_Result">
+                <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+                <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+                <ScalarProperty Name="Store" ColumnName="Store" />
+                <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="Score" ColumnName="Score" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

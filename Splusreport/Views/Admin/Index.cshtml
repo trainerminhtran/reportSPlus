@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Upload file Splus Activity Daily";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload file Splus Activity Daily</h2>
+
+@using (Html.BeginForm("CreateSplus", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="input-group">
+
+        @if (TempData["SSuccess"] != null)
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-success" })
+
+        }
+        else
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        }
+
+        <input type="file" name="file" class="form-control" id="exampleInputFile">
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </div>
+
+}
+
+<br/>
+<br/>
+<br/>
+<h2>Upload file From Dealer</h2>
+
+
+<img src="~/dist/img/template.jpg" />
+@using (Html.BeginForm("CreateDearler", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="input-group">
+
+        @if (TempData["DSuccess"] != null)
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-success" })
+
+        }
+        else
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        }
+        <input type="file" name="file" class="form-control" id="exampleInputFile">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+}

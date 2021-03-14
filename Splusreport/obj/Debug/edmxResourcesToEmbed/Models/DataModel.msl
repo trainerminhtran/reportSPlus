@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="SPlusReportModelStoreContainer" CdmEntityContainer="SPlusReportEntities">
+    <EntitySetMapping Name="DearlerFSMUploads">
+      <EntityTypeMapping TypeName="SPlusReportModel.DearlerFSMUpload">
+        <MappingFragment StoreEntitySet="DearlerFSMUpload">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MNV" ColumnName="MNV" />
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SplusActivityUploads">
+      <EntityTypeMapping TypeName="SPlusReportModel.SplusActivityUpload">
+        <MappingFragment StoreEntitySet="SplusActivityUpload">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="LoginID" ColumnName="LoginID" />
+          <ScalarProperty Name="Jobgroup" ColumnName="Jobgroup" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="AttempEnddate" ColumnName="AttempEnddate" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="StoreInfors">
+      <EntityTypeMapping TypeName="SPlusReportModel.StoreInfor">
+        <MappingFragment StoreEntitySet="StoreInfors">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="ChannelName" ColumnName="ChannelName" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Address" ColumnName="Address" />
+          <ScalarProperty Name="MCSCode" ColumnName="MCSCode" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="SelectScoreDMX" FunctionName="SPlusReportModel.Store.SelectScoreDMX">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SPlusReportModel.SelectScoreDMX_Result">
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+  </EntityContainerMapping>
+</Mapping>

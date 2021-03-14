@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="SPlusReportModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DearlerFSMUpload">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MNV" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="SPlusCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Fullname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="SplusActivityUpload">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="LoginID" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Jobgroup" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="ActivityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="AttempEnddate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Score" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="StoreInfor">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="ChannelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="MCSCode" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="SPlusReportEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DearlerFSMUploads" EntityType="Self.DearlerFSMUpload" />
+    <EntitySet Name="SplusActivityUploads" EntityType="Self.SplusActivityUpload" />
+    <EntitySet Name="StoreInfors" EntityType="Self.StoreInfor" />
+    <FunctionImport Name="SelectScoreDMX" ReturnType="Collection(SPlusReportModel.SelectScoreDMX_Result)" />
+  </EntityContainer>
+  <ComplexType Name="SelectScoreDMX_Result">
+    <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Store" Nullable="false" />
+    <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Score" Nullable="true" />
+  </ComplexType>
+</Schema>

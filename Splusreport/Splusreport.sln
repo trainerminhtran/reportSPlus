@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30621.155
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Splusreport", "Splusreport.csproj", "{487D13EE-4A4A-45FF-AFE2-97F3B1DAB898}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{487D13EE-4A4A-45FF-AFE2-97F3B1DAB898}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{487D13EE-4A4A-45FF-AFE2-97F3B1DAB898}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{487D13EE-4A4A-45FF-AFE2-97F3B1DAB898}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{487D13EE-4A4A-45FF-AFE2-97F3B1DAB898}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0EED2AD4-2B69-477F-96F8-A5F2323BA39D}
+	EndGlobalSection
+EndGlobal
