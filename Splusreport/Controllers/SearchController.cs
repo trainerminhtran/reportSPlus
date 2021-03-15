@@ -43,7 +43,7 @@ namespace Splusreport.Controllers
                         lso.TotalTested++;
                     }
                 }
-                lso.AverageScore = (lso.TotalTested / lso.TotalEmployee)*100;
+                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lsos.Add(lso);
             }
             lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
