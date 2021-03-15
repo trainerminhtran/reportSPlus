@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE SelectScoreDMX 
+CREATE PROCEDURE SelectScoreMM 
 AS
 SELECT 
 
@@ -9,8 +9,7 @@ a.Store,
 a.Region,
 COALESCE(b.Score,0)  as Score
 FROM 
-
-[dbo].[DearlerFSMUpload] as a
-LEFT JOIN [dbo].[SplusActivityUpload] as b on a.[SPlusCode] = b.LoginID and year(b.AttempEnddate) = 2020 and month(b.AttempEnddate) = 12 and upper(a.SPlusCode) like 'CE.DMX%'
-
-EXEC SelectScoreDMX
+(Select * from 
+[dbo].[DearlerFSMUpload]  where upper(SPlusCode) like 'CE.DMX%' or upper(SPlusCode) like 'CE.TGDD%') as a
+LEFT JOIN [dbo].[SplusActivityUpload] as b on a.[SPlusCode] = b.LoginID and year(b.AttempEnddate) = year(getdate()) and month(b.AttempEnddate) = month(getdate())
+EXEC SelectScoreMM

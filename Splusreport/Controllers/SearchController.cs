@@ -94,5 +94,172 @@ namespace Splusreport.Controllers
             }
             return Ok(lsos);
         }
+
+        [HttpGet]
+        public IHttpActionResult SearchMM()
+        {
+            var datas = new SearchModelMM();
+
+            var SelectScoreMM_Results = _db.SelectScoreMM();
+
+            var groups = SelectScoreMM_Results.GroupBy(x => x.Store);
+            var lsos = new List<StoreOrderView>();
+            foreach (var items in groups)
+            {
+                var lso = new StoreOrderView
+                {
+                    TotalEmployee = 0,
+                    AverageScore = 0,
+                    TotalScore = 0,
+                    TotalTested = 0
+                };
+                lso.TotalEmployee = items.Count();
+                foreach (var item in items)
+                {
+                    lso.StoreName = item.Store;
+                    var itemscore = item.Score.GetValueOrDefault();
+                    if (itemscore > 0)
+                    {
+                        lso.TotalScore += itemscore;
+                        lso.TotalTested++;
+                    }
+                }
+                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+                lsos.Add(lso);
+            }
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            for (int i = 0; i < lsos.Count; i++)
+            {
+                lsos[i].Order = i + 1;
+            }
+            datas.Data = _db.SelectScoreMM().ToList();
+            datas.ListStoreOrder = lsos;
+            return Ok(datas);
+        }
+
+        [HttpGet]
+        public IHttpActionResult SearchNK()
+        {
+            var datas = new SearchModelNK();
+
+            var SelectScoreNK_Results = _db.SelectScoreNK();
+
+            var groups = SelectScoreNK_Results.GroupBy(x => x.Store);
+            var lsos = new List<StoreOrderView>();
+            foreach (var items in groups)
+            {
+                var lso = new StoreOrderView
+                {
+                    TotalEmployee = 0,
+                    AverageScore = 0,
+                    TotalScore = 0,
+                    TotalTested = 0
+                };
+                lso.TotalEmployee = items.Count();
+                foreach (var item in items)
+                {
+                    lso.StoreName = item.Store;
+                    var itemscore = item.Score.GetValueOrDefault();
+                    if (itemscore > 0)
+                    {
+                        lso.TotalScore += itemscore;
+                        lso.TotalTested++;
+                    }
+                }
+                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+                lsos.Add(lso);
+            }
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            for (int i = 0; i < lsos.Count; i++)
+            {
+                lsos[i].Order = i + 1;
+            }
+            datas.Data = _db.SelectScoreNK().ToList();
+            datas.ListStoreOrder = lsos;
+            return Ok(datas);
+        } 
+        
+        [HttpGet]
+        public IHttpActionResult SearchVHC()
+        {
+            var datas = new SearchModelVHC();
+
+            var SelectScoreVHC_Results = _db.SelectScoreVHC();
+
+            var groups = SelectScoreVHC_Results.GroupBy(x => x.Store);
+            var lsos = new List<StoreOrderView>();
+            foreach (var items in groups)
+            {
+                var lso = new StoreOrderView
+                {
+                    TotalEmployee = 0,
+                    AverageScore = 0,
+                    TotalScore = 0,
+                    TotalTested = 0
+                };
+                lso.TotalEmployee = items.Count();
+                foreach (var item in items)
+                {
+                    lso.StoreName = item.Store;
+                    var itemscore = item.Score.GetValueOrDefault();
+                    if (itemscore > 0)
+                    {
+                        lso.TotalScore += itemscore;
+                        lso.TotalTested++;
+                    }
+                }
+                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+                lsos.Add(lso);
+            }
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            for (int i = 0; i < lsos.Count; i++)
+            {
+                lsos[i].Order = i + 1;
+            }
+            datas.Data = _db.SelectScoreVHC().ToList();
+            datas.ListStoreOrder = lsos;
+            return Ok(datas);
+        } 
+        [HttpGet]
+        public IHttpActionResult SearchPICO()
+        {
+            var datas = new SearchModelPICO();
+
+            var SelectScorePICO_Results = _db.SelectScorePICO();
+
+            var groups = SelectScorePICO_Results.GroupBy(x => x.Store);
+            var lsos = new List<StoreOrderView>();
+            foreach (var items in groups)
+            {
+                var lso = new StoreOrderView
+                {
+                    TotalEmployee = 0,
+                    AverageScore = 0,
+                    TotalScore = 0,
+                    TotalTested = 0
+                };
+                lso.TotalEmployee = items.Count();
+                foreach (var item in items)
+                {
+                    lso.StoreName = item.Store;
+                    var itemscore = item.Score.GetValueOrDefault();
+                    if (itemscore > 0)
+                    {
+                        lso.TotalScore += itemscore;
+                        lso.TotalTested++;
+                    }
+                }
+                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+                lsos.Add(lso);
+            }
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            for (int i = 0; i < lsos.Count; i++)
+            {
+                lsos[i].Order = i + 1;
+            }
+            datas.Data = _db.SelectScorePICO().ToList();
+            datas.ListStoreOrder = lsos;
+            return Ok(datas);
+        }
     }
 }

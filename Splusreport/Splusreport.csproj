@@ -150,7 +150,11 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\DMXController.cs" />
+    <Compile Include="Controllers\MMController.cs" />
+    <Compile Include="Controllers\NKController.cs" />
+    <Compile Include="Controllers\PICOController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
+    <Compile Include="Controllers\VHCController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -173,6 +177,18 @@
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SelectScoreDMX_Result.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectScoreMM_Result.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectScoreNK_Result.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectScorePICO_Result.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SelectScoreVHC_Result.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SplusActivityUpload.cs">
@@ -365,6 +381,10 @@
     <Content Include="Views\DMX\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\DMX\Region.cshtml" />
+    <Content Include="Views\MM\Index.cshtml" />
+    <Content Include="Views\NK\Index.cshtml" />
+    <Content Include="Views\PICO\Index.cshtml" />
+    <Content Include="Views\VHC\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

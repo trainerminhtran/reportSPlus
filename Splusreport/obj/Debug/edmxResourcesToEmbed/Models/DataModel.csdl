@@ -37,8 +37,40 @@
     <EntitySet Name="SplusActivityUploads" EntityType="Self.SplusActivityUpload" />
     <EntitySet Name="StoreInfors" EntityType="Self.StoreInfor" />
     <FunctionImport Name="SelectScoreDMX" ReturnType="Collection(SPlusReportModel.SelectScoreDMX_Result)" />
+    <FunctionImport Name="SelectScoreMM" ReturnType="Collection(SPlusReportModel.SelectScoreMM_Result)" />
+    <FunctionImport Name="SelectScoreNK" ReturnType="Collection(SPlusReportModel.SelectScoreNK_Result)" />
+    <FunctionImport Name="SelectScorePICO" ReturnType="Collection(SPlusReportModel.SelectScorePICO_Result)" />
+    <FunctionImport Name="SelectScoreVHC" ReturnType="Collection(SPlusReportModel.SelectScoreVHC_Result)" />
   </EntityContainer>
   <ComplexType Name="SelectScoreDMX_Result">
+    <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Store" Nullable="false" />
+    <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Score" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectScoreMM_Result">
+    <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Store" Nullable="false" />
+    <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Score" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectScoreNK_Result">
+    <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Store" Nullable="false" />
+    <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Score" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectScorePICO_Result">
+    <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
+    <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
+    <Property Type="String" Name="Store" Nullable="false" />
+    <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="Int32" Name="Score" Nullable="true" />
+  </ComplexType>
+  <ComplexType Name="SelectScoreVHC_Result">
     <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
     <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="Store" Nullable="false" />

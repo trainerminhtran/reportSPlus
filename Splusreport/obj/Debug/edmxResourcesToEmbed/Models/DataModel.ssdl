@@ -33,6 +33,10 @@
     <Property Name="MCSCode" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Function Name="SelectScoreDMX" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SelectScoreMM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SelectScoreNK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SelectScorePICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="SelectScoreVHC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="SPlusReportModelStoreContainer">
     <EntitySet Name="DearlerFSMUpload" EntityType="Self.DearlerFSMUpload" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SplusActivityUpload" EntityType="Self.SplusActivityUpload" Schema="dbo" store:Type="Tables" />

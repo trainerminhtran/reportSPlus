@@ -35,5 +35,25 @@ namespace Splusreport.Models
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScoreDMX_Result>("SelectScoreDMX");
         }
+    
+        public virtual ObjectResult<SelectScoreMM_Result> SelectScoreMM()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScoreMM_Result>("SelectScoreMM");
+        }
+    
+        public virtual ObjectResult<SelectScoreNK_Result> SelectScoreNK()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScoreNK_Result>("SelectScoreNK");
+        }
+    
+        public virtual ObjectResult<SelectScorePICO_Result> SelectScorePICO()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScorePICO_Result>("SelectScorePICO");
+        }
+    
+        public virtual ObjectResult<SelectScoreVHC_Result> SelectScoreVHC()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScoreVHC_Result>("SelectScoreVHC");
+        }
     }
 }

@@ -47,5 +47,49 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectScoreMM" FunctionName="SPlusReportModel.Store.SelectScoreMM">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SPlusReportModel.SelectScoreMM_Result">
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectScoreNK" FunctionName="SPlusReportModel.Store.SelectScoreNK">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SPlusReportModel.SelectScoreNK_Result">
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectScorePICO" FunctionName="SPlusReportModel.Store.SelectScorePICO">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SPlusReportModel.SelectScorePICO_Result">
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="SelectScoreVHC" FunctionName="SPlusReportModel.Store.SelectScoreVHC">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="SPlusReportModel.SelectScoreVHC_Result">
+          <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
+          <ScalarProperty Name="Fullname" ColumnName="Fullname" />
+          <ScalarProperty Name="Store" ColumnName="Store" />
+          <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="Score" ColumnName="Score" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
   </EntityContainerMapping>
 </Mapping>
