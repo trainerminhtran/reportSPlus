@@ -158,14 +158,14 @@ namespace Splusreport.Controllers
                             for (int i = 1; i < dtStudentRecords.Rows.Count; i++)
                             {
                                 DearlerFSMUpload objStudent = new DearlerFSMUpload();
-                                objStudent.MNV = Convert.ToString(dtStudentRecords.Rows[i][0]);
-                                objStudent.SPlusCode = Convert.ToString(dtStudentRecords.Rows[i][1]);
-                                objStudent.Fullname = Convert.ToString(dtStudentRecords.Rows[i][2]);
+                                objStudent.MNV = Convert.ToString(dtStudentRecords.Rows[i][1]);
+                                objStudent.SPlusCode = Convert.ToString(dtStudentRecords.Rows[i][2]);
+                                objStudent.Fullname = Convert.ToString(dtStudentRecords.Rows[i][3]);
 
 
-                                objStudent.Store = Convert.ToString(dtStudentRecords.Rows[i][3]);
+                                objStudent.Store = Convert.ToString(dtStudentRecords.Rows[i][4]);
 
-                                objStudent.Region = Convert.ToString(dtStudentRecords.Rows[i][4]);
+                                objStudent.Region = Convert.ToString(dtStudentRecords.Rows[i][5]);
                                 var user = datas.Where(x => x.SPlusCode == objStudent.SPlusCode).FirstOrDefault();
                                 if (user != null)
                                 {
