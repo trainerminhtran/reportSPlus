@@ -11,7 +11,7 @@ namespace Splusreport.ViewModel
         public int TotalEmployee { get; set; }
         public int TotalTested { get; set; }
         public int TotalScore { get; set; }
-        public int AverageScore { get; set; }
+        public decimal AverageScore { get; set; }
         public int Order { get; set; }
 
     }

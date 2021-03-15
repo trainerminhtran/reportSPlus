@@ -71,7 +71,7 @@ namespace Splusreport.Controllers
                                 if (objStudent.ActivityCode.ToLower().Contains("test") && !string.IsNullOrEmpty(dtStudentRecords.Rows[i][10].ToString()))
                                 {
                                     objStudent.AttempEnddate = Convert.ToDateTime(dtStudentRecords.Rows[i][10]);
-                                    if (!string.IsNullOrEmpty(dtStudentRecords.Rows[i][12].ToString()) && objStudent.AttempEnddate.Month == 12)
+                                    if (!string.IsNullOrEmpty(dtStudentRecords.Rows[i][12].ToString()) && objStudent.AttempEnddate.Month == DateTime.Now.Month)
                                     {
                                         objStudent.Score = Convert.ToInt32(dtStudentRecords.Rows[i][12]);
                                         var fromDatabase = datas.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
