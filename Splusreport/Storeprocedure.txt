@@ -1,5 +1,5 @@
 
-CREATE PROCEDURE SelectScoreMM 
+CREATE PROCEDURE SelectScoreDMX
 AS
 SELECT 
 
@@ -12,4 +12,4 @@ FROM
 (Select * from 
 [dbo].[DearlerFSMUpload]  where upper(SPlusCode) like 'CE.DMX%' or upper(SPlusCode) like 'CE.TGDD%') as a
 LEFT JOIN [dbo].[SplusActivityUpload] as b on a.[SPlusCode] = b.LoginID and year(b.AttempEnddate) = year(getdate()) and month(b.AttempEnddate) = month(getdate())
-EXEC SelectScoreMM
+EXEC SelectScoreDMX

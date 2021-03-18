@@ -227,6 +227,10 @@
     <Content Include="dist\css\alt\adminlte.pages.min.css" />
     <Content Include="dist\css\alt\adminlte.plugins.css" />
     <Content Include="dist\css\alt\adminlte.plugins.min.css" />
+    <Content Include="dist\Customizable-Loading-Modal-Plugin\css\modal-loading-animate.css" />
+    <Content Include="dist\Customizable-Loading-Modal-Plugin\css\modal-loading.css" />
+    <Content Include="dist\Customizable-Loading-Modal-Plugin\index.html" />
+    <Content Include="dist\Customizable-Loading-Modal-Plugin\js\modal-loading.js" />
     <Content Include="dist\datatables-bs4\css\dataTables.bootstrap4.css" />
     <Content Include="dist\datatables-bs4\css\dataTables.bootstrap4.min.css" />
     <Content Include="dist\datatables-bs4\js\dataTables.bootstrap4.js" />
@@ -356,6 +360,7 @@
     <Content Include="dist\fontawesome-free\webfonts\fa-solid-900.woff2" />
     <Content Include="dist\jquery\jquery.min.map" />
     <Content Include="dist\jquery\jquery.slim.min.map" />
+    <Content Include="dist\Customizable-Loading-Modal-Plugin\README.md" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
     <Content Include="Scripts\jquery-3.4.1.min.js" />

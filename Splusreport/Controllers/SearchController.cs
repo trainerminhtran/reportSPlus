@@ -44,9 +44,12 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lsos.Add(lso);
+                if (lso.TotalEmployee >= 5)
+                {
+                    lsos.Add(lso);
+                }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i=>i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i+1;
@@ -87,11 +90,21 @@ namespace Splusreport.Controllers
                 lso.AverageScore = lso.TotalScore / lso.TotalEmployee;
                 lsos.Add(lso);
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i+1;
             }
+
+            var ls = new StoreOrderView
+            {
+                StoreName = "Total",
+                TotalEmployee = lsos.Sum(x=>x.TotalEmployee),
+                AverageScore = lsos.Sum(x => x.TotalScore)/ lsos.Sum(x => x.TotalEmployee),
+                TotalScore = lsos.Sum(x => x.TotalScore),
+                TotalTested = lsos.Sum(x => x.TotalTested)
+            };
+            lsos.Add(ls);
             return Ok(lsos);
         }
 
@@ -125,9 +138,13 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lsos.Add(lso);
+                if (lso.TotalEmployee >= 5)
+                {
+                    lsos.Add(lso);
+                }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -167,9 +184,12 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lsos.Add(lso);
+                if (lso.TotalEmployee >= 5)
+                {
+                    lsos.Add(lso);
+                }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -209,9 +229,12 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lsos.Add(lso);
+                if (lso.TotalEmployee >= 5)
+                {
+                    lsos.Add(lso);
+                }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -250,9 +273,12 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lsos.Add(lso);
+                if (lso.TotalEmployee >= 5)
+                {
+                    lsos.Add(lso);
+                }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;

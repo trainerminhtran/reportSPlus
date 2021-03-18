@@ -135,8 +135,12 @@
 
 @section Scripts{
     <script>
-        $(document).ready(function () {
 
+        
+
+
+        $(document).ready(function () {
+            var loading = new Loading();
             $.ajax({
                 type: "Post",
                 dataType: "json",
@@ -172,12 +176,10 @@
                         }
                     });
                 },
+
+            }).done(function () {
+                loading.out()
             });
-
-
-
-
-
         });
 
 
