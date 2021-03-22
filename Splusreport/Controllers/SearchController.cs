@@ -92,6 +92,15 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i+1;
             }
+            var ls = new StoreOrderView
+            {
+                StoreName ="Tổng cộng",
+                TotalEmployee = lsos.Sum(x=>x.TotalEmployee),
+                AverageScore = lsos.Sum(x => x.TotalScore)/ lsos.Sum(x => x.TotalEmployee),
+                TotalScore = lsos.Sum(x => x.TotalScore),
+                TotalTested = lsos.Sum(x => x.TotalTested)
+            };
+            lsos.Add(ls);
             return Ok(lsos);
         }
     }
