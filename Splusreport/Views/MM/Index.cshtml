@@ -92,7 +92,7 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-            TÌM KIẾM THÔNG TIN HỌC TẬP SAMSUNG PLUS THÁNG @DateTime.Now.Month
+            GOLDEN STORE - MEDIAMART - VÒNG 1 - SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
         </h2>
     </div>
     <!-- /.card-header -->
@@ -108,7 +108,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header" style="">
-                                    <h2 class="card-title">Theo cửa hàng</h2>
+                                    <h2 class="card-title">Thứ tự cửa hàng theo điểm GOLD</h2>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -128,7 +128,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header">
-                                    <h3 class="card-title">Theo nhân viên</h3>
+                                    <h3 class="card-title">Tra điểm từng nhân viên của cửa hàng</h3>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -178,7 +178,10 @@
                         ],
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
-                        }
+                        }, dom: 'Bfrtip'
+                        , "buttons": [
+                            'excel'
+                        ]
                     });
 
 
@@ -188,32 +191,42 @@
                         "paging": true,
                         "searching": true,
                         "ordering": true,
-                        "responsive": true,
+                        "order": [[1, "desc"]],"responsive": true,
                         "data": response.ListStoreOrder,
                         "columns": [
                             {
                                 "data": "StoreName",
                                 "title": "Tên Store"
-                            }, {
-                                "data": "TotalEmployee",
-                                "title": "Tổng NV (A)"
-                            }, {
-                                "data": "TotalTested",
-                                "title": "Số NV đã test"
-                            }, {
-                                "data": "TotalScore",
-                                "title": "Tổng điểm (B)"
-                            }, {
-                                "data": "AverageScore",
-                                "title": "ĐTB toàn Store (B/A)"
-                            }, {
+                            },
+                            {
                                 "data": "Order",
                                 "title": "Vị thứ"
+                            }, {
+                                "data": "TotalEmployee",
+                                "title": "Tổng NV (a)"
+                            }, {
+                                "data": "TotalTested",
+                                "title": "Số NV đã test(b)"
+                            }, {
+                                "data": "TotalScore",
+                                "title": "Tổng điểm (c)"
+                            }, {
+                                "data": "AverageScore",
+                                "title": "Điểm TB (A=c/a)"
+                            }, {
+                                "data": "RateTested",
+                                "title": "%làm bài (B=b/a*100)"
+                            }, {
+                                "data": "Gold",
+                                "title": "Điểm Gold (A+B)"
                             }
                         ],
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
-                        }
+                        }, dom: 'Bfrtip'
+                        , "buttons": [
+                            'excel'
+                        ]
                     });
                 },
             }).done(function () {

@@ -37,7 +37,7 @@ namespace Splusreport.Controllers
                 List<SplusActivityUpload> templist = new List<SplusActivityUpload>();
                 #endregion
 
-                #region Save DealerFSM Detail From Excel  
+                #region Save Splus activation Detail From Excel  
 
                 if (file.ContentLength > 0)
                 {
@@ -55,6 +55,9 @@ namespace Splusreport.Controllers
                         dsexcelRecords = reader.AsDataSet();
                         reader.Close();
                         var datas = _db.SplusActivityUploads.Where(x => x.AttempEnddate.Month == DateTime.Now.Month);
+                        List<SplusActivityUpload> idtoRemoves = new List<SplusActivityUpload>();
+                        List<SplusActivityUpload> idtoAdds = new List<SplusActivityUpload>();
+
                         if (dsexcelRecords != null && dsexcelRecords.Tables.Count > 0)
                         {
                             DataTable dtStudentRecords = dsexcelRecords.Tables[0];
@@ -77,18 +80,50 @@ namespace Splusreport.Controllers
                                         var fromDatabase = datas.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
 
                                         var b = templist.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
-
-                                        if (b == null || (b != null && b.Score < objStudent.Score))
+                                        if (b != null)
+                                        {
+                                            if (b.Score < objStudent.Score)
+                                            {
+                                                templist.Remove(b);
+                                                //Add to database if not exist
+                                                if (fromDatabase == null)
+                                                {
+                                                    templist.Add(objStudent);
+                                                }
+                                                else if (fromDatabase.Score < objStudent.Score)
+                                                {
+                                                    idtoRemoves.Add(fromDatabase);
+                                                    templist.Add(objStudent);
+                                                }
+                                            }
+                                            else
+                                            {
+                                                templist.Remove(objStudent);
+                                            }
+                                        }
+                                        else
                                         {
                                             //Add to database if not exist
-                                            if (fromDatabase == null || fromDatabase.Score < objStudent.Score)
+                                            if (fromDatabase == null)
                                             {
-                                                _db.SplusActivityUploads.Add(objStudent);
+                                                templist.Add(objStudent);
+                                            }
+                                            else if (fromDatabase.Score < objStudent.Score)
+                                            {
+                                                idtoRemoves.Add(fromDatabase);
                                                 templist.Add(objStudent);
                                             }
                                         }
                                     }
                                 }
+                            }
+                            if (idtoRemoves.Count > 0)
+                            {
+                                _db.SplusActivityUploads.RemoveRange(idtoRemoves);
+                            }
+                            if (templist.Count > 0)
+                            {
+                                _db.SplusActivityUploads.AddRange(templist);
                             }
 
                             int output = _db.SaveChanges();
@@ -169,13 +204,13 @@ namespace Splusreport.Controllers
                                 var user = datas.Where(x => x.SPlusCode == objStudent.SPlusCode).FirstOrDefault();
                                 if (user != null)
                                 {
-                                    _db.DearlerFSMUploads.Remove(user); 
+                                    _db.DearlerFSMUploads.Remove(user);
                                 }
                                 _db.DearlerFSMUploads.Add(objStudent);
                             }
                         }
 
-                       int output = _db.SaveChanges();
+                        int output = _db.SaveChanges();
                         if (output > 0)
                             message = "Successfully uploaded.";
                         else

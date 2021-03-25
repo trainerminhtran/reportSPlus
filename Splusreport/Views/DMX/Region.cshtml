@@ -99,7 +99,7 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-            TÌM KIẾM THÔNG TIN HỌC TẬP SAMSUNG PLUS THÁNG @DateTime.Now.Month
+            TÌM KIẾM THÔNG TIN HỌC TẬP SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
         </h2>
     </div>
     <!-- /.card-header -->
@@ -151,6 +151,7 @@
 
                     //Table Store
                     $('#storedetailId').DataTable({
+                        "lengthMenu": [10, 25, 50, 100],
                         "paging": false,
                         "searching": false,
                         "ordering": true,
@@ -173,7 +174,10 @@
                         ],
                         "language": {
                             "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
-                        }
+                        }, "dom": 'Bfrtip',
+                        "buttons": [
+                           'excel'
+                        ]
                     });
                 },
 

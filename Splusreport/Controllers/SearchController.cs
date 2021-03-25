@@ -30,7 +30,9 @@ namespace Splusreport.Controllers
                     TotalEmployee = 0,
                     AverageScore = 0,
                     TotalScore = 0,
-                    TotalTested = 0
+                    TotalTested = 0,
+                    RateTested = 0,
+                    Gold = 0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -44,12 +46,15 @@ namespace Splusreport.Controllers
                     }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+                lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100,2,MidpointRounding.AwayFromZero);
+                lso.Gold = lso.AverageScore + lso.RateTested;
+
                 if (lso.TotalEmployee >= 5)
                 {
                     lsos.Add(lso);
                 }
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i=>i.TotalEmployee).ToList();
+            lsos = lsos.OrderByDescending(o => o.Gold).ThenByDescending(i=>i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i+1;

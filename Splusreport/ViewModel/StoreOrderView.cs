@@ -12,6 +12,9 @@ namespace Splusreport.ViewModel
         public int TotalTested { get; set; }
         public int TotalScore { get; set; }
         public decimal AverageScore { get; set; }
+        public decimal RateTested { get; set; }
+
+        public decimal Gold { get; set; }
         public int Order { get; set; }
 
     }
