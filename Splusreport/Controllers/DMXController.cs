@@ -16,7 +16,5 @@ namespace Splusreport.Controllers
         {
             return View();
         }
-
-       
     }
 }

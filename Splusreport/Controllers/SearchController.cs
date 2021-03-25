@@ -101,9 +101,10 @@ namespace Splusreport.Controllers
                 lsos[i].Order = i+1;
             }
 
+
             var ls = new StoreOrderView
             {
-                StoreName = "Total",
+                StoreName ="Tổng cộng",
                 TotalEmployee = lsos.Sum(x=>x.TotalEmployee),
                 AverageScore = lsos.Sum(x => x.TotalScore)/ lsos.Sum(x => x.TotalEmployee),
                 TotalScore = lsos.Sum(x => x.TotalScore),
