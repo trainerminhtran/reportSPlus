@@ -17,6 +17,8 @@ namespace Splusreport.Models
         public string Fullname { get; set; }
         public string Store { get; set; }
         public string Region { get; set; }
+        public string ActivityCode { get; set; }
+        public string IsLearned { get; set; }
         public Nullable<int> Score { get; set; }
     }
 }

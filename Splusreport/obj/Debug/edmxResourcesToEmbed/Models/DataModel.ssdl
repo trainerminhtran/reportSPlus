@@ -21,6 +21,7 @@
     <Property Name="ActivityCode" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="AttempEnddate" Type="datetime" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
+    <Property Name="IsLearned" Type="nchar" MaxLength="10" Nullable="false" />
   </EntityType>
   <EntityType Name="StoreInfors">
     <Key>

@@ -26,6 +26,7 @@
           <Property Name="ActivityCode" Type="nvarchar" MaxLength="100" Nullable="false" />
           <Property Name="AttempEnddate" Type="datetime" Nullable="false" />
           <Property Name="Score" Type="int" Nullable="false" />
+          <Property Name="IsLearned" Type="nchar" MaxLength="10" Nullable="false" />
         </EntityType>
         <EntityType Name="StoreInfors">
           <Key>
@@ -72,6 +73,7 @@
           <Property Name="ActivityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="AttempEnddate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Score" Type="Int32" Nullable="false" />
+          <Property Name="IsLearned" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
         </EntityType>
         <EntityType Name="StoreInfor">
           <Key>
@@ -98,6 +100,8 @@
           <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Store" Nullable="false" />
           <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="Score" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SelectScoreMM_Result">
@@ -105,6 +109,8 @@
           <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Store" Nullable="false" />
           <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="Score" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SelectScoreNK_Result">
@@ -112,6 +118,8 @@
           <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Store" Nullable="false" />
           <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="Score" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SelectScorePICO_Result">
@@ -119,6 +127,8 @@
           <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
           <Property Type="String" Name="Store" Nullable="false" />
           <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
           <Property Type="Int32" Name="Score" Nullable="true" />
         </ComplexType>
         <ComplexType Name="SelectScoreVHC_Result">
@@ -149,6 +159,7 @@
           <EntitySetMapping Name="SplusActivityUploads">
             <EntityTypeMapping TypeName="SPlusReportModel.SplusActivityUpload">
               <MappingFragment StoreEntitySet="SplusActivityUpload">
+                <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="LoginID" ColumnName="LoginID" />
                 <ScalarProperty Name="Jobgroup" ColumnName="Jobgroup" />
@@ -176,6 +187,8 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
                 <ScalarProperty Name="Score" ColumnName="Score" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -187,6 +200,8 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
                 <ScalarProperty Name="Score" ColumnName="Score" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -198,6 +213,8 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
                 <ScalarProperty Name="Score" ColumnName="Score" />
               </ComplexTypeMapping>
             </ResultMapping>
@@ -209,6 +226,8 @@
                 <ScalarProperty Name="Fullname" ColumnName="Fullname" />
                 <ScalarProperty Name="Store" ColumnName="Store" />
                 <ScalarProperty Name="Region" ColumnName="Region" />
+                <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+                <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
                 <ScalarProperty Name="Score" ColumnName="Score" />
               </ComplexTypeMapping>
             </ResultMapping>

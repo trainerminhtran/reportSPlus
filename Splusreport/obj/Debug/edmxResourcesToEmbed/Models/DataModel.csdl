@@ -21,6 +21,7 @@
     <Property Name="ActivityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="AttempEnddate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Score" Type="Int32" Nullable="false" />
+    <Property Name="IsLearned" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
   </EntityType>
   <EntityType Name="StoreInfor">
     <Key>
@@ -47,6 +48,8 @@
     <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="Store" Nullable="false" />
     <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
     <Property Type="Int32" Name="Score" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectScoreMM_Result">
@@ -54,6 +57,8 @@
     <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="Store" Nullable="false" />
     <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
     <Property Type="Int32" Name="Score" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectScoreNK_Result">
@@ -61,6 +66,8 @@
     <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="Store" Nullable="false" />
     <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
     <Property Type="Int32" Name="Score" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectScorePICO_Result">
@@ -68,6 +75,8 @@
     <Property Type="String" Name="Fullname" Nullable="false" MaxLength="200" />
     <Property Type="String" Name="Store" Nullable="false" />
     <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="ActivityCode" Nullable="true" MaxLength="100" />
+    <Property Type="String" Name="IsLearned" Nullable="true" MaxLength="10" />
     <Property Type="Int32" Name="Score" Nullable="true" />
   </ComplexType>
   <ComplexType Name="SelectScoreVHC_Result">

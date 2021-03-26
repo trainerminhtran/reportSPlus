@@ -16,6 +16,7 @@
     <EntitySetMapping Name="SplusActivityUploads">
       <EntityTypeMapping TypeName="SPlusReportModel.SplusActivityUpload">
         <MappingFragment StoreEntitySet="SplusActivityUpload">
+          <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="LoginID" ColumnName="LoginID" />
           <ScalarProperty Name="Jobgroup" ColumnName="Jobgroup" />
@@ -43,6 +44,8 @@
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
           <ScalarProperty Name="Score" ColumnName="Score" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -54,6 +57,8 @@
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
           <ScalarProperty Name="Score" ColumnName="Score" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -65,6 +70,8 @@
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
           <ScalarProperty Name="Score" ColumnName="Score" />
         </ComplexTypeMapping>
       </ResultMapping>
@@ -76,6 +83,8 @@
           <ScalarProperty Name="Fullname" ColumnName="Fullname" />
           <ScalarProperty Name="Store" ColumnName="Store" />
           <ScalarProperty Name="Region" ColumnName="Region" />
+          <ScalarProperty Name="ActivityCode" ColumnName="ActivityCode" />
+          <ScalarProperty Name="IsLearned" ColumnName="IsLearned" />
           <ScalarProperty Name="Score" ColumnName="Score" />
         </ComplexTypeMapping>
       </ResultMapping>

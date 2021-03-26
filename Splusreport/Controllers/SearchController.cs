@@ -113,7 +113,7 @@ namespace Splusreport.Controllers
             lsos.Add(ls);
             return Ok(lsos);
         }
-
+        
         [HttpGet]
         public IHttpActionResult SearchMM()
         {

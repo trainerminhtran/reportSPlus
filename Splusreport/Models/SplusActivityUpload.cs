@@ -18,7 +18,8 @@ namespace Splusreport.Models
         public string LoginID { get; set; }
         public string Jobgroup { get; set; }
         public string ActivityCode { get; set; }
-        public System.DateTime AttempEnddate { get; set; }
+        public System.DateTime AttempStartdate { get; set; }
         public int Score { get; set; }
+        public string IsLearned { get; set; }
     }
 }
