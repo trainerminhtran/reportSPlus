@@ -146,6 +146,7 @@ namespace Splusreport.Controllers
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
                                 var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]);
+                                
                                 if (loginId.Contains("TGDD"))
                                 {
                                     loginId = loginId.Replace("TGDD", "DMX");
@@ -198,7 +199,9 @@ namespace Splusreport.Controllers
                                     foreach (var s in searchResults)
                                     {
                                         var spluscode = s.SPlusCode.ToUpper();
+                                      
                                         var input = changes.FirstOrDefault(x => x.LoginID.ToUpper() == spluscode);
+                                        
                                         if (input != null)
                                         {
                                             s.IsLearned = input.IsLearned;

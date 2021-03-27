@@ -86,7 +86,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = _db.SelectScoreDMX().ToList();
+            datas.Data = FindByAccount("DMX");
             datas.ListStoreOrder = lsos;
             return Ok(datas);
         }
@@ -182,7 +182,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = _db.SelectScoreMM().ToList();
+            datas.Data = FindByAccount("MM");
             datas.ListStoreOrder = lsos;
             return Ok(datas);
         }
@@ -227,7 +227,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = _db.SelectScoreNK().ToList();
+            datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
             return Ok(datas);
         }
@@ -272,7 +272,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = _db.SelectScoreVHC().ToList();
+            datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
             return Ok(datas);
         }
@@ -316,7 +316,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = _db.SelectScorePICO().ToList();
+            datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
             return Ok(datas);
         }
