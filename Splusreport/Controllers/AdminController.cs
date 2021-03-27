@@ -21,7 +21,7 @@ namespace Splusreport.Controllers
             path = Server.MapPath("~/Uploads/Data.csv");
             if (!Directory.Exists(Server.MapPath("~/ Uploads")))
             {
-                Directory.CreateDirectory(Server.MapPath("~/ Uploads"));
+                Directory.CreateDirectory(Server.MapPath("~/Uploads"));
             }
             if (!System.IO.File.Exists(path))
             {
@@ -46,24 +46,35 @@ namespace Splusreport.Controllers
                     //add row to file
                     writer.WriteRow(row);
                 }
-
-                // Read sample data from CSV file
-                using (CsvFileReader reade = new CsvFileReader(path))
-                {
-                    CsvRow row = new CsvRow();
-                    while (reade.ReadRow(row))
-                    {
-                        for (int j = 1; j < row.Count; j++)
-                        {
-
-                        }
-                    }
-                }
             }
 
-
-
             return View();
+        }
+        public void ReaderCSV(string path,out int learned, out int tested)
+        {
+            // Read sample data from CSV file
+            using (CsvFileReader reade = new CsvFileReader(path))
+            {
+                var l = -1;//trừ dòng đầu tiên
+                var t = 0;
+                CsvRow row = new CsvRow();
+                while (reade.ReadRow(row))
+                {
+                    if (!string.IsNullOrEmpty(row[5]))
+                    {
+                        l++;
+                    }
+                    var score = 0;
+                    Int32.TryParse(row[6], out score);
+                    if (score>0)
+                    {
+                        t++;
+                    }
+                }
+                learned = l;
+                tested = t;
+            }
+
         }
 
         [HttpPost]
@@ -78,8 +89,13 @@ namespace Splusreport.Controllers
                 IExcelDataReader r = null;
                 Stream FileStream = null;
                 List<SplusActivityUpload> templist = new List<SplusActivityUpload>();
+                var learnedOld  = 0;
+                var  learnedNew = 0;
+                var testedOld = 0;
+                var testedNew = 0;
+                
                 #endregion
-
+                
                 #region Save Splus activation Detail From Excel  
 
                 if (file.ContentLength > 0)
@@ -101,6 +117,16 @@ namespace Splusreport.Controllers
 
                         //tạo biến chứa dữ liệu nhân viên cần thêm hoặc sửa vào data tìm kiếm
                         var changes = new List<SplusActivityUpload>();
+                        var searchResults = _db.DearlerFSMUploads.Select(x => new SearchResult
+                        {
+                            SPlusCode = x.SPlusCode,
+                            Fullname = x.Fullname,
+                            Region = x.Region,
+                            Store = x.Store,
+                            ActivityCode="",
+                            IsLearned = "",
+                            Score = 0
+                        }).ToList();
                         //Nếu file có dữ liệu
                         if (dsexcelRecords != null && dsexcelRecords.Tables.Count > 0)
                         {
@@ -119,7 +145,12 @@ namespace Splusreport.Controllers
                                 //tạo biến chứ dữ liệu từng dòng của file acitivity
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
-                                objStudent.LoginID = Convert.ToString(dtStudentRecords.Rows[i][1]);
+                                var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]);
+                                if (loginId.Contains("TGDD"))
+                                {
+                                    loginId = loginId.Replace("TGDD", "DMX");
+                                }
+                                objStudent.LoginID = loginId.Contains("CE.")? loginId : "CE."+ loginId;
                                 objStudent.ActivityCode = Convert.ToString(dtStudentRecords.Rows[i][6]);
                                 int score = 0;
                                 Int32.TryParse(dtStudentRecords.Rows[i][12].ToString(), out score);
@@ -148,8 +179,13 @@ namespace Splusreport.Controllers
                                  "IsLearned",
                                  "Score"
                             };
-                            if (!System.IO.File.Exists(path))
+                            if (System.IO.File.Exists(path))
                             {
+
+                                // Read sample data from CSV file
+                                ReaderCSV(path, out learnedOld, out testedOld);
+
+
                                 using (CsvFileWriter writer = new CsvFileWriter(path))
                                 {
                                     //Tạo tiêu đề
@@ -158,27 +194,43 @@ namespace Splusreport.Controllers
                                         row.Add(title[j]);
                                     writer.WriteRow(row);
 
-                                    //Add data to row
-                                    foreach (var c in changes)
+                                    //searchResults fillin
+                                    foreach (var s in searchResults)
                                     {
-                                        row.Add(c.LoginID);
-                                        row.Add(c.LoginID);
-                                        row.Add(c.LoginID);
-                                        row.Add(c.LoginID);
-                                        row.Add(c.ActivityCode);
-                                        row.Add(c.IsLearned);
-                                        row.Add(c.Score.ToString());
+                                        var spluscode = s.SPlusCode.ToUpper();
+                                        var input = changes.FirstOrDefault(x => x.LoginID.ToUpper() == spluscode);
+                                        if (input != null)
+                                        {
+                                            s.IsLearned = input.IsLearned;
+                                            s.Score = input.Score;
+                                            s.ActivityCode = input.ActivityCode;
+                                            learnedNew++;
+                                            if (input.Score>0)
+                                            {
+                                                testedNew++;
+
+                                            }
+                                        }
+                                        //Add data to row
+                                        row = new CsvRow();
+                                        row.Add(s.SPlusCode);
+                                        row.Add(s.Fullname);
+                                        row.Add(s.Store);
+                                        row.Add(s.Region);
+                                        row.Add(s.ActivityCode);
+                                        row.Add(s.IsLearned);
+                                        row.Add(s.Score.ToString());
 
                                         //add row to file
                                         writer.WriteRow(row);
-                                        row = new CsvRow();
                                     }
                                 }
+                                    message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";
                             }
-                        }
+                        }//end readfile activity
                     }
                 }
-
+                
                 ModelState.AddModelError("message", message);
 
                 TempData["SSuccess"] = message;
@@ -371,7 +423,6 @@ namespace Splusreport.Controllers
                                 objStudent.MNV = Convert.ToString(dtStudentRecords.Rows[i][1]);
                                 objStudent.SPlusCode = Convert.ToString(dtStudentRecords.Rows[i][2]);
                                 objStudent.Fullname = Convert.ToString(dtStudentRecords.Rows[i][3]);
-
 
                                 objStudent.Store = Convert.ToString(dtStudentRecords.Rows[i][4]);
 

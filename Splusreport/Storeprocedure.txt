@@ -29,9 +29,15 @@ b.IsLearned,
 COALESCE(b.Score,0)  as Score
 FROM 
 (Select * from 
-[dbo].[DearlerFSMUpload]  where upper(SPlusCode) like 'CE.DMX%' or upper(SPlusCode) like 'CE.TGDD%') as a
+[dbo].[DearlerFSMUpload]  where upper(SPlusCode) like '%MM%') as a
 LEFT JOIN [dbo].[SplusActivityUpload] as b on a.[SPlusCode] = b.LoginID and year(b.AttempEnddate) = year(getdate()) and month(b.AttempEnddate) = month(getdate())
+
+
+/*
+
 EXEC SelectScoreMM
+
+*/
 
 
 ALTER PROCEDURE SelectScoreNK
@@ -47,7 +53,7 @@ b.IsLearned,
 COALESCE(b.Score,0)  as Score
 FROM 
 (Select * from 
-[dbo].[DearlerFSMUpload]  where upper(SPlusCode) like 'CE.DMX%' or upper(SPlusCode) like 'CE.TGDD%') as a
+[dbo].[DearlerFSMUpload]  where upper(SPlusCode) like 'CE.NK%') as a
 LEFT JOIN [dbo].[SplusActivityUpload] as b on a.[SPlusCode] = b.LoginID and year(b.AttempEnddate) = year(getdate()) and month(b.AttempEnddate) = month(getdate())
 EXEC SelectScoreNK
 

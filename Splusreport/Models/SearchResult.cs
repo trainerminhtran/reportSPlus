@@ -15,4 +15,20 @@ namespace Splusreport.Models
         public string IsLearned { get; set; }
         public int Score { get; set; }
     }
+
+    public class NoChange
+    {
+        public LearnTest DMX { get; set; }
+        public LearnTest MM { get; set; }
+        public LearnTest PICO { get; set; }
+        public LearnTest VHC { get; set; }
+        public LearnTest NK { get; set; }
+        public LearnTest CP { get; set; }
+        public LearnTest OTher { get; set; }
+    }
+    public class LearnTest
+    {
+        public int Learn { get; set; }
+        public int Test { get; set; }
+    }
 }

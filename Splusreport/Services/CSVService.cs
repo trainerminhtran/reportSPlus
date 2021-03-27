@@ -22,12 +22,12 @@ namespace Splusreport.Services
         public class CsvFileWriter : StreamWriter
         {
             public CsvFileWriter(Stream stream)
-                : base(stream)
+                : base(stream, Encoding.UTF8)
             {
             }
 
             public CsvFileWriter(string filename)
-                : base(filename)
+                : base(filename,false,Encoding.UTF8)
             {
             }
 
@@ -38,6 +38,7 @@ namespace Splusreport.Services
             public void WriteRow(CsvRow row)
             {
                 StringBuilder builder = new StringBuilder();
+
                 bool firstColumn = true;
                 foreach (string value in row)
                 {
