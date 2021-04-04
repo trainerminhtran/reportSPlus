@@ -20,6 +20,7 @@ namespace Splusreport.Models
         public string ActivityCode { get; set; }
         public System.DateTime AttempStartdate { get; set; }
         public int Score { get; set; }
+        public int SecondTest { get; set; }
         public string IsLearned { get; set; }
     }
 }

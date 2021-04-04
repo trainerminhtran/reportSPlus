@@ -13,6 +13,8 @@ namespace Splusreport.Models
         public string Region { get; set; }
         public string ActivityCode { get; set; }
         public string IsLearned { get; set; }
+        public int SecondTest { get; set; }
+
         public int Score { get; set; }
     }
 

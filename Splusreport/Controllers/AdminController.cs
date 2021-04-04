@@ -33,6 +33,7 @@ namespace Splusreport.Controllers
                      "Region",
                      "ActivityCode",
                      "IsLearned",
+                     "SecondTest",
                      "Score"
                 };
                 // Write sample data to CSV file
@@ -125,6 +126,7 @@ namespace Splusreport.Controllers
                             Store = x.Store,
                             ActivityCode="",
                             IsLearned = "",
+                            SecondTest = 0,
                             Score = 0
                         }).ToList();
                         //Nếu file có dữ liệu
@@ -138,7 +140,7 @@ namespace Splusreport.Controllers
                             {
                                 var date = Convert.ToDateTime(dtStudentRecords.Rows[i][9]);
                                 //Nếu không phải tháng này thì thôi
-                                if (date.Month != DateTime.Now.Month)
+                                if (date.Month !=3)
                                 {
                                     continue;
                                 }
@@ -153,9 +155,23 @@ namespace Splusreport.Controllers
                                 }
                                 objStudent.LoginID = loginId.Contains("CE.")? loginId : "CE."+ loginId;
                                 objStudent.ActivityCode = Convert.ToString(dtStudentRecords.Rows[i][6]);
-                                int score = 0;
-                                Int32.TryParse(dtStudentRecords.Rows[i][12].ToString(), out score);
-                                objStudent.Score = score;
+                                decimal score = 0;
+                                decimal secondTest = 0;
+                                var sc = dtStudentRecords.Rows[i][12].ToString();
+                                Decimal.TryParse(dtStudentRecords.Rows[i][12].ToString(), out score);
+                                Decimal.TryParse(dtStudentRecords.Rows[i][11].ToString(), out secondTest);
+                            
+                                if (objStudent.ActivityCode.ToLower().Contains("test"))
+                                {
+                                    objStudent.Score = (int)score;
+                                    objStudent.SecondTest = (int)secondTest;
+                                }
+                                else
+                                {
+                                    objStudent.Score = 0;
+                                    objStudent.SecondTest = 0;
+                                }
+                               
                                 objStudent.IsLearned = "Yes";
                                 var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
                                 if (b != null)
@@ -163,6 +179,7 @@ namespace Splusreport.Controllers
                                     if (b.Score < objStudent.Score)
                                     {
                                         b.Score = objStudent.Score;
+                                        b.SecondTest = objStudent.SecondTest;
                                     }
                                 }
                                 else
@@ -178,6 +195,7 @@ namespace Splusreport.Controllers
                                  "Region",
                                  "ActivityCode",
                                  "IsLearned",
+                                 "SecondTest",
                                  "Score"
                             };
                             if (System.IO.File.Exists(path))
@@ -206,12 +224,12 @@ namespace Splusreport.Controllers
                                         {
                                             s.IsLearned = input.IsLearned;
                                             s.Score = input.Score;
+                                            s.SecondTest = input.SecondTest;
                                             s.ActivityCode = input.ActivityCode;
                                             learnedNew++;
                                             if (input.Score>0)
                                             {
                                                 testedNew++;
-
                                             }
                                         }
                                         //Add data to row
@@ -222,6 +240,7 @@ namespace Splusreport.Controllers
                                         row.Add(s.Region);
                                         row.Add(s.ActivityCode);
                                         row.Add(s.IsLearned);
+                                        row.Add(s.SecondTest.ToString());
                                         row.Add(s.Score.ToString());
 
                                         //add row to file
