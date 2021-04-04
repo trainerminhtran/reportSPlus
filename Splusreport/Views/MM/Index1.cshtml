@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Điện Máy Xanh";
+    ViewBag.Title = "MediaMart";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -11,6 +11,7 @@
             font-weight: 400;
         }
 
+
         .card-header-Title {
             padding: 20px;
         }
@@ -21,7 +22,7 @@
             }
 
         .card-header {
-            background: #3fb8ff;
+            background: #ff2035;
         }
 
         .card-title {
@@ -53,7 +54,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="../../index3.html">
-            <img src="../../dist/img/dien-may-xanh.png"
+            <img src="../../dist/img/mediamart.png"
                  alt="AdminLTE Logo"
                  class="brand-image">
         </a>
@@ -64,7 +65,7 @@
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
                 <div class="info">
-                    <a href="#" class="d-block">ADMIN DMX</a>
+                    <a href="#" class="d-block">ADMIN MM</a>
                 </div>
             </div>
 
@@ -72,18 +73,10 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
-                    with font-awesome or any other icon font library -->
+    with font-awesome or any other icon font library -->
+                   
                     <li class="nav-item">
-                        <a href="/dmx/region" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Theo vùng miền
-                                <span class="right badge badge-danger">New</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dmx" class="nav-link">
+                        <a href="/mm" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Chi tiết từng cửa hàng
@@ -99,8 +92,11 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-            TÌM KIẾM THÔNG TIN HỌC TẬP SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
+            GOLDEN STORE - MEDIAMART - VÒNG 1 - SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
         </h2>
+		<h3 class="card-title" style="margin: 0 auto;">
+            Hệ thống đang bảo trì. Vui lòng quay lại vào 9h00 sáng thứ 7 (27.3.2021)
+        </h3>
     </div>
     <!-- /.card-header -->
     <!-- Content Wrapper. Contains page content -->
@@ -115,7 +111,7 @@
                         <div class="col-12">
                             <div class="card">
                                 <div class="card-header" style="">
-                                    <h2 class="card-title">Theo vùng miền</h2>
+                                    <h2 class="card-title">Thứ tự cửa hàng theo điểm GOLD</h2>
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -129,63 +125,25 @@
                 </div>
             </section>
 
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Tra điểm từng nhân viên của cửa hàng</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body">
+                                    <table id="nvdetailId" class="table table-bordered table-hover">
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
         </div>
     </div>
 </div>
-
-@section Scripts{
-    <script>
-
-        
-
-
-        $(document).ready(function () {
-            var loading = new Loading();
-            $.ajax({
-                type: "Post",
-                dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                url: "/api/Search/SearchRegion",
-                success: function (response) {
-
-
-                    //Table Store
-                    $('#storedetailId').DataTable({
-                        "lengthMenu": [10, 25, 50, 100],
-                        "paging": false,
-                        "searching": false,
-                        "ordering": true,
-                        "responsive": true,
-                        "data": response,
-                        "columns": [
-                            {
-                                "data": "StoreName",
-                                "title": "Khu vực"
-                            }, {
-                                "data": "TotalEmployee",
-                                "title": "Tổng NV"
-                            }, {
-                                "data": "TotalTested",
-                                "title": "Số NV đã test"
-                            }, {
-                                "data": "RateTested",
-                                "title": "Phần Trăm hoàn thành (%)"
-                            }
-                        ],
-                        "language": {
-                            "url": "//cdn.datatables.net/plug-ins/1.10.24/i18n/Vietnamese.json"
-                        }, "dom": 'Bfrtip',
-                        "buttons": [
-                           'excel'
-                        ]
-                    });
-                },
-
-            }).done(function () {
-                loading.out()
-            });
-        });
-
-
-    </script>
-}

@@ -365,6 +365,12 @@
     <Content Include="Views\DMX\Index.cshtml" />
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\DMX\Region.cshtml" />
+    <Content Include="Views\MM\Index.cshtml" />
+    <Content Include="Views\MM\Index1.cshtml" />
+    <Content Include="Views\NK\Index.cshtml" />
+    <Content Include="Views\PICO\Index.cshtml" />
+    <Content Include="Views\VHC\Index - Copy.cshtml" />
+    <Content Include="Views\VHC\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
