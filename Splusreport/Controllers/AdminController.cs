@@ -51,7 +51,7 @@ namespace Splusreport.Controllers
 
             return View();
         }
-        public void ReaderCSV(string path,out int learned, out int tested)
+        public void ReaderCSV(string path, out int learned, out int tested)
         {
             // Read sample data from CSV file
             using (CsvFileReader reade = new CsvFileReader(path))
@@ -67,7 +67,7 @@ namespace Splusreport.Controllers
                     }
                     var score = 0;
                     Int32.TryParse(row[6], out score);
-                    if (score>0)
+                    if (score > 0)
                     {
                         t++;
                     }
@@ -90,13 +90,13 @@ namespace Splusreport.Controllers
                 IExcelDataReader r = null;
                 Stream FileStream = null;
                 List<SplusActivityUpload> templist = new List<SplusActivityUpload>();
-                var learnedOld  = 0;
-                var  learnedNew = 0;
+                var learnedOld = 0;
+                var learnedNew = 0;
                 var testedOld = 0;
                 var testedNew = 0;
-                
+
                 #endregion
-                
+
                 #region Save Splus activation Detail From Excel  
 
                 if (file.ContentLength > 0)
@@ -124,7 +124,7 @@ namespace Splusreport.Controllers
                             Fullname = x.Fullname,
                             Region = x.Region,
                             Store = x.Store,
-                            ActivityCode="",
+                            ActivityCode = "",
                             IsLearned = "",
                             SecondTest = 0,
                             Score = 0
@@ -140,7 +140,7 @@ namespace Splusreport.Controllers
                             {
                                 var date = Convert.ToDateTime(dtStudentRecords.Rows[i][9]);
                                 //Nếu không phải tháng này thì thôi
-                                if (date.Month !=3)
+                                if (date.Month != DateTime.Now.Month)
                                 {
                                     continue;
                                 }
@@ -148,30 +148,31 @@ namespace Splusreport.Controllers
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
                                 var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]);
-                                
+
                                 if (loginId.Contains("TGDD"))
                                 {
                                     loginId = loginId.Replace("TGDD", "DMX");
                                 }
-                                objStudent.LoginID = loginId.Contains("CE.")? loginId : "CE."+ loginId;
+                                objStudent.LoginID = loginId.Contains("CE.") ? loginId : "CE." + loginId;
                                 objStudent.ActivityCode = Convert.ToString(dtStudentRecords.Rows[i][6]);
                                 decimal score = 0;
                                 decimal secondTest = 0;
                                 var sc = dtStudentRecords.Rows[i][12].ToString();
                                 Decimal.TryParse(dtStudentRecords.Rows[i][12].ToString(), out score);
                                 Decimal.TryParse(dtStudentRecords.Rows[i][11].ToString(), out secondTest);
-                            
-                                if (objStudent.ActivityCode.ToLower().Contains("test"))
-                                {
-                                    objStudent.Score = (int)score;
-                                    objStudent.SecondTest = (int)secondTest;
-                                }
-                                else
-                                {
-                                    objStudent.Score = 0;
-                                    objStudent.SecondTest = 0;
-                                }
-                               
+
+                                //if (objStudent.ActivityCode.ToLower().Contains("test"))
+                                //{
+                                //    objStudent.Score = (int)score;
+                                //    objStudent.SecondTest = (int)secondTest;
+                                //}
+                                //else
+                                //{
+                                //    objStudent.Score = 0;
+                                //    objStudent.SecondTest = 0;
+                                //}
+                                objStudent.Score = (int)score;
+                                objStudent.SecondTest = (int)secondTest;
                                 objStudent.IsLearned = "Yes";
                                 var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
                                 if (b != null)
@@ -217,9 +218,9 @@ namespace Splusreport.Controllers
                                     foreach (var s in searchResults)
                                     {
                                         var spluscode = s.SPlusCode.ToUpper();
-                                      
+
                                         var input = changes.FirstOrDefault(x => x.LoginID.ToUpper() == spluscode);
-                                        
+
                                         if (input != null)
                                         {
                                             s.IsLearned = input.IsLearned;
@@ -227,7 +228,7 @@ namespace Splusreport.Controllers
                                             s.SecondTest = input.SecondTest;
                                             s.ActivityCode = input.ActivityCode;
                                             learnedNew++;
-                                            if (input.Score>0)
+                                            if (input.Score > 0)
                                             {
                                                 testedNew++;
                                             }
@@ -247,12 +248,12 @@ namespace Splusreport.Controllers
                                         writer.WriteRow(row);
                                     }
                                 }
-                                    message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";
+                                message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";
                             }
                         }//end readfile activity
                     }
                 }
-                
+
                 ModelState.AddModelError("message", message);
 
                 TempData["SSuccess"] = message;
