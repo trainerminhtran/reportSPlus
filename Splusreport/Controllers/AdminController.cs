@@ -255,7 +255,8 @@ namespace Splusreport.Controllers
                 }
 
                 ModelState.AddModelError("message", message);
-
+                _db.Dayupdates.Add(new Dayupdate { Dateupdate = DateTime.Now });
+                _db.SaveChanges();
                 TempData["SSuccess"] = message;
                 return View("Index");
                 #endregion
@@ -402,6 +403,26 @@ namespace Splusreport.Controllers
           }
 
           */
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetData (string dealer)
+        {
+            string message;
+            try
+            {
+                _db.ResetDealer(dealer);
+                message = "Reset Data Thành công";
+            }
+            catch
+            {
+                message = "Reset Data Thất bại, thử lại.";
+            }
+            ModelState.AddModelError("message", message);
+            TempData["DSuccess"] = message;
+            
+                return View("Index");
+
+        }
 
 
         // POST: Admin/Create From dealer
@@ -450,6 +471,7 @@ namespace Splusreport.Controllers
                                 objStudent.Store = Convert.ToString(dtStudentRecords.Rows[i][4]);
 
                                 objStudent.Region = Convert.ToString(dtStudentRecords.Rows[i][5]);
+                                objStudent.Dealer = Convert.ToString(dtStudentRecords.Rows[i][6]);
                                 var user = datas.Where(x => x.SPlusCode == objStudent.SPlusCode).FirstOrDefault();
                                 if (user != null)
                                 {

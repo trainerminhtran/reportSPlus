@@ -30,6 +30,7 @@ namespace Splusreport.Models
         public virtual DbSet<DearlerFSMUpload> DearlerFSMUploads { get; set; }
         public virtual DbSet<SplusActivityUpload> SplusActivityUploads { get; set; }
         public virtual DbSet<StoreInfor> StoreInfors { get; set; }
+        public virtual DbSet<Dayupdate> Dayupdates { get; set; }
     
         public virtual ObjectResult<SelectScoreDMX_Result> SelectScoreDMX()
         {
@@ -54,6 +55,15 @@ namespace Splusreport.Models
         public virtual ObjectResult<SelectScoreVHC_Result> SelectScoreVHC()
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<SelectScoreVHC_Result>("SelectScoreVHC");
+        }
+    
+        public virtual int ResetDealer(string dealer)
+        {
+            var dealerParameter = dealer != null ?
+                new ObjectParameter("dealer", dealer) :
+                new ObjectParameter("dealer", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("ResetDealer", dealerParameter);
         }
     }
 }

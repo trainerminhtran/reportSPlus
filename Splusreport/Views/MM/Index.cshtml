@@ -92,7 +92,7 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-            GOLDEN STORE - MEDIAMART - VÒNG 1 - SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
+            SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày <span id="dayupdate"></span>
         </h2>
     </div>
     <!-- /.card-header -->
@@ -164,7 +164,7 @@
                 contentType: "application/json; charset=utf-8",
                 url: "/api/Search/SearchMM",
                 success: function (response) {
-
+                    $('#dayupdate').text(response.Dayupdate);
                     //Table nv
                     $("#nvdetailId").DataTable({
                         "lengthMenu": [25, 50, 75, 100],

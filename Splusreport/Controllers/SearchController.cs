@@ -45,6 +45,7 @@ namespace Splusreport.Controllers
         [HttpGet]
         public IHttpActionResult SearchDMX()
         {
+           
             var datas = new SearchModel();
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
@@ -93,6 +94,16 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("DMX");
             datas.ListStoreOrder = lsos;
+            
+            var lastupdate = _db.Dayupdates.OrderByDescending(obj => obj.ID).FirstOrDefault();
+            if (lastupdate == null)
+            {
+                datas.Dayupdate = DateTime.Now;
+            }
+            else
+            {
+                datas.Dayupdate = lastupdate.Dateupdate;
+            }
             return Ok(datas);
         }
 
@@ -197,6 +208,8 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("MM");
             datas.ListStoreOrder = lsos;
+            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+
             return Ok(datas);
         }
 
@@ -251,6 +264,8 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
+            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+
             return Ok(datas);
         }
 
@@ -305,6 +320,8 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("VHC");
             datas.ListStoreOrder = lsos;
+            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+
             return Ok(datas);
         }
         [HttpGet]
@@ -358,6 +375,8 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("PICO");
             datas.ListStoreOrder = lsos;
+            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+
             return Ok(datas);
         }
     }

@@ -31,13 +31,48 @@
 
 }
 
-<br/>
-<br/>
-<br/>
-<h2>Upload file From Dealer</h2>
+<br />
+<br />
+<br />
+<h2>Reset Data</h2>
+<br />
+@using (Html.BeginForm("ResetData", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
+{
+    @Html.AntiForgeryToken()
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <label class="input-group-text" for="inputGroupSelect01">Chọn Dealer</label>
+        </div>
+        <select class="custom-select" name="dealer" id="inputGroupSelect01">
+            <option selected>Choose...</option>
+            <option value="1">DMX</option>
+            <option value="2">NK</option>
+            <option value="3">CP</option>
+            <option value="4">MM</option>
+            <option value="5">PICO</option>
+            <option value="6">VHC</option>
+        </select>
+    </div>
+    if (TempData["DSuccess"] != null)
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-success" })
+
+    }
+    else
+    {
+        @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+    }
+    <div class="input-group mb-3">
+        <input class="btn btn-primary" type="submit" onclick="if (confirm('Bạn có chắc không?')) return true; else return false;" value="Submit">
+
+    </div>
+}
 
 
-<img src="~/dist/img/template.jpg" />
+<h2>Upload new data from Dealer</h2>
+<br />
+<img src="~/dist/img/template1.jpg" />
 @using (Html.BeginForm("CreateDearler", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
 {
     @Html.AntiForgeryToken()

@@ -4,6 +4,7 @@
     <EntitySetMapping Name="DearlerFSMUploads">
       <EntityTypeMapping TypeName="SPlusReportModel.DearlerFSMUpload">
         <MappingFragment StoreEntitySet="DearlerFSMUpload">
+          <ScalarProperty Name="Dealer" ColumnName="Dealer" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="MNV" ColumnName="MNV" />
           <ScalarProperty Name="SPlusCode" ColumnName="SPlusCode" />
@@ -100,5 +101,14 @@
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <EntitySetMapping Name="Dayupdates">
+      <EntityTypeMapping TypeName="SPlusReportModel.Dayupdate">
+        <MappingFragment StoreEntitySet="Dayupdate">
+          <ScalarProperty Name="Dateupdate" ColumnName="Dateupdate" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="ResetDealer" FunctionName="SPlusReportModel.Store.ResetDealer" />
   </EntityContainerMapping>
 </Mapping>

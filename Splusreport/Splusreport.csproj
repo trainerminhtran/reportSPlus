@@ -173,6 +173,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dayupdate.cs">
+      <DependentUpon>DataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\DearlerFSMUpload.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
     </Compile>

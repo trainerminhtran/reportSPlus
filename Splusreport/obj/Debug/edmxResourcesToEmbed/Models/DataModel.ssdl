@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="SPlusReportModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Dayupdate">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Dateupdate" Type="datetime" Nullable="false" />
+  </EntityType>
   <EntityType Name="DearlerFSMUpload">
     <Key>
       <PropertyRef Name="ID" />
@@ -10,6 +17,7 @@
     <Property Name="Fullname" Type="nvarchar" MaxLength="200" Nullable="false" />
     <Property Name="Store" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Region" Type="nvarchar" MaxLength="50" />
+    <Property Name="Dealer" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <EntityType Name="SplusActivityUpload">
     <Key>
@@ -21,7 +29,7 @@
     <Property Name="ActivityCode" Type="nvarchar" MaxLength="100" Nullable="false" />
     <Property Name="AttempEnddate" Type="datetime" Nullable="false" />
     <Property Name="Score" Type="int" Nullable="false" />
-    <Property Name="IsLearned" Type="nchar" MaxLength="10" Nullable="false" />
+    <Property Name="IsLearned" Type="char" MaxLength="10" Nullable="false" />
   </EntityType>
   <EntityType Name="StoreInfors">
     <Key>
@@ -33,12 +41,16 @@
     <Property Name="Address" Type="nvarchar(max)" />
     <Property Name="MCSCode" Type="nvarchar" MaxLength="50" />
   </EntityType>
+  <Function Name="ResetDealer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="dealer" Type="nvarchar" Mode="In" />
+  </Function>
   <Function Name="SelectScoreDMX" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="SelectScoreMM" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="SelectScoreNK" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="SelectScorePICO" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="SelectScoreVHC" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <EntityContainer Name="SPlusReportModelStoreContainer">
+    <EntitySet Name="Dayupdate" EntityType="Self.Dayupdate" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="DearlerFSMUpload" EntityType="Self.DearlerFSMUpload" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SplusActivityUpload" EntityType="Self.SplusActivityUpload" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="StoreInfors" EntityType="Self.StoreInfors" Schema="dbo" store:Type="Tables" />

@@ -12,16 +12,9 @@ namespace Splusreport.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class SplusActivityUpload
+    public partial class Dayupdate
     {
         public int ID { get; set; }
-        public string LoginID { get; set; }
-        public string Jobgroup { get; set; }
-        public string ActivityCode { get; set; }
-        public System.DateTime AttempStartdate { get; set; }
-        public System.DateTime AttempEnddate { get; set; }
-        public int Score { get; set; }
-        public int SecondTest { get; set; }
-        public string IsLearned { get; set; }
+        public System.DateTime Dateupdate { get; set; }
     }
 }

@@ -10,6 +10,7 @@
     <Property Name="Fullname" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Store" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="Region" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Dealer" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="SplusActivityUpload">
     <Key>
@@ -21,7 +22,7 @@
     <Property Name="ActivityCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="AttempEnddate" Type="DateTime" Nullable="false" Precision="3" />
     <Property Name="Score" Type="Int32" Nullable="false" />
-    <Property Name="IsLearned" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="IsLearned" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="false" />
   </EntityType>
   <EntityType Name="StoreInfor">
     <Key>
@@ -42,6 +43,10 @@
     <FunctionImport Name="SelectScoreNK" ReturnType="Collection(SPlusReportModel.SelectScoreNK_Result)" />
     <FunctionImport Name="SelectScorePICO" ReturnType="Collection(SPlusReportModel.SelectScorePICO_Result)" />
     <FunctionImport Name="SelectScoreVHC" ReturnType="Collection(SPlusReportModel.SelectScoreVHC_Result)" />
+    <EntitySet Name="Dayupdates" EntityType="SPlusReportModel.Dayupdate" />
+    <FunctionImport Name="ResetDealer">
+      <Parameter Name="dealer" Mode="In" Type="String" />
+    </FunctionImport>
   </EntityContainer>
   <ComplexType Name="SelectScoreDMX_Result">
     <Property Type="String" Name="SPlusCode" Nullable="false" MaxLength="50" />
@@ -86,4 +91,11 @@
     <Property Type="String" Name="Region" Nullable="true" MaxLength="50" />
     <Property Type="Int32" Name="Score" Nullable="true" />
   </ComplexType>
+  <EntityType Name="Dayupdate">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Dateupdate" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
 </Schema>

@@ -11,26 +11,37 @@ namespace Splusreport.ViewModel
         public List<SearchResult> Data { get;set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
+        public DateTime Dayupdate { get; set; }
     }
     public class SearchModelMM
     {
         public List<SearchResult> Data { get; set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
-    } public class SearchModelNK
+        public DateTime Dayupdate { get; set; }
+
+    }
+    public class SearchModelNK
     {
         public List<SearchResult> Data { get; set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
-    } public class SearchModelVHC
+        public DateTime Dayupdate { get; set; }
+
+    }
+    public class SearchModelVHC
     {
         public List<SearchResult> Data { get; set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
-    }public class SearchModelPICO
+        public DateTime Dayupdate { get; set; }
+
+    }
+    public class SearchModelPICO
     {
         public List<SearchResult> Data { get; set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
+        public DateTime Dayupdate { get; set; }
     }
 }

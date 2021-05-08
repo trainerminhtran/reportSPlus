@@ -1,4 +1,5 @@
-﻿@{
+﻿
+@{
     ViewBag.Title = "Điện Máy Xanh";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
@@ -100,7 +101,7 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-           SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày @DateTime.Now.Day/@DateTime.Now.Month/@DateTime.Now.Year
+           SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày <span id="dayupdate"></span>
            
         </h2>
 
@@ -177,7 +178,7 @@
                 contentType: "application/json; charset=utf-8",
                 url: "/api/Search/SearchDMX",
                 success: function (response) {
-
+                    $('#dayupdate').text = response.Dayupdate;
                     //Table nv
                     $("#nvdetailId").DataTable({
 
