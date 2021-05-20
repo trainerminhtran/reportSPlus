@@ -129,6 +129,8 @@ namespace Splusreport.Controllers
                             SecondTest = 0,
                             Score = 0
                         }).ToList();
+
+                      
                         //Nếu file có dữ liệu
                         if (dsexcelRecords != null && dsexcelRecords.Tables.Count > 0)
                         {
@@ -140,15 +142,15 @@ namespace Splusreport.Controllers
                             {
                                 var date = Convert.ToDateTime(dtStudentRecords.Rows[i][9]);
                                 //Nếu không phải tháng này thì thôi
-                                if (date.Month != DateTime.Now.Month)
-                                {
-                                    continue;
-                                }
+                                //if (date.Month != DateTime.Now.Month)
+                                //{
+                                //    continue;
+                                //}
                                 //tạo biến chứ dữ liệu từng dòng của file acitivity
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
-                                var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]);
-
+                                var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]).ToUpper();
+                               
                                 if (loginId.Contains("TGDD"))
                                 {
                                     loginId = loginId.Replace("TGDD", "DMX");
@@ -161,22 +163,24 @@ namespace Splusreport.Controllers
                                 Decimal.TryParse(dtStudentRecords.Rows[i][12].ToString(), out score);
                                 Decimal.TryParse(dtStudentRecords.Rows[i][11].ToString(), out secondTest);
 
-                                //if (objStudent.ActivityCode.ToLower().Contains("test"))
-                                //{
-                                //    objStudent.Score = (int)score;
-                                //    objStudent.SecondTest = (int)secondTest;
-                                //}
-                                //else
-                                //{
-                                //    objStudent.Score = 0;
-                                //    objStudent.SecondTest = 0;
-                                //}
-                                objStudent.Score = (int)score;
-                                objStudent.SecondTest = (int)secondTest;
+                                //Nếu mã bài học có chữ "TEST" thì mới tính điểm, ko thì gán điểm bằng 0
+                                if (objStudent.ActivityCode.ToLower().Contains("test"))
+                                {
+                                    objStudent.Score = (int)score;
+                                    objStudent.SecondTest = (int)secondTest;
+                                }
+                                else
+                                {
+                                    objStudent.Score = 0;
+                                    objStudent.SecondTest = 0;
+                                }
+                                //Đánh dấu đã học bài (luôn luôn đã học bài vì có thể học bài, hoặc làm bài test cũng tính học bài
                                 objStudent.IsLearned = "Yes";
+                               
                                 var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
                                 if (b != null)
                                 {
+                                    // So sánh điểm test cũ nếu điểm bài test cũ ít điểm hơn sẽ thay thế bằng điểm và thời gian làm bài mới
                                     if (b.Score < objStudent.Score)
                                     {
                                         b.Score = objStudent.Score;
@@ -261,8 +265,9 @@ namespace Splusreport.Controllers
                 return View("Index");
                 #endregion
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                var mes = e;
                 throw;
             }
         }
@@ -457,7 +462,7 @@ namespace Splusreport.Controllers
                         dsexcelRecords = reader.AsDataSet();
                         reader.Close();
 
-                        var datas = _db.DearlerFSMUploads;
+                        var datas = new List<DearlerFSMUpload>();
                         if (dsexcelRecords != null && dsexcelRecords.Tables.Count > 0)
                         {
                             DataTable dtStudentRecords = dsexcelRecords.Tables[0];
@@ -467,20 +472,13 @@ namespace Splusreport.Controllers
                                 objStudent.MNV = Convert.ToString(dtStudentRecords.Rows[i][1]);
                                 objStudent.SPlusCode = Convert.ToString(dtStudentRecords.Rows[i][2]);
                                 objStudent.Fullname = Convert.ToString(dtStudentRecords.Rows[i][3]);
-
                                 objStudent.Store = Convert.ToString(dtStudentRecords.Rows[i][4]);
-
                                 objStudent.Region = Convert.ToString(dtStudentRecords.Rows[i][5]);
                                 objStudent.Dealer = Convert.ToString(dtStudentRecords.Rows[i][6]);
-                                var user = datas.Where(x => x.SPlusCode == objStudent.SPlusCode).FirstOrDefault();
-                                if (user != null)
-                                {
-                                    _db.DearlerFSMUploads.Remove(user);
-                                }
-                                _db.DearlerFSMUploads.Add(objStudent);
+                                datas.Add(objStudent);
                             }
                         }
-
+                        _db.DearlerFSMUploads.AddRange(datas);
                         int output = _db.SaveChanges();
                         if (output > 0)
                             message = "Successfully uploaded.";

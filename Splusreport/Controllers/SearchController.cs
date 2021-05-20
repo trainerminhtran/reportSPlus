@@ -22,21 +22,44 @@ namespace Splusreport.Controllers
                 CsvRow row = new CsvRow();
                 while (reade.ReadRow(row))
                 {
-                    if (row[0].Contains(account))
+                    if (account == "DMX")
                     {
-                        var sr = new SearchResult
+                        if (row[0].Contains(account.ToUpper()) || row[0].Contains("TGDD")|| row[0].Contains("dmx"))
                         {
-                            SPlusCode = row[0],
-                            Fullname = row[1],
-                            Store = row[2],
-                            Region = row[3],
-                            ActivityCode = row[4],
-                            IsLearned = row[5],
-                            SecondTest = Int32.Parse(row[6]),
-                            Score = Int32.Parse(row[7])
-                        };
-                        ls.Add(sr);
+                            var sr = new SearchResult
+                            {
+                                SPlusCode = row[0],
+                                Fullname = row[1],
+                                Store = row[2],
+                                Region = row[3],
+                                ActivityCode = row[4],
+                                IsLearned = row[5],
+                                SecondTest = Int32.Parse(row[6]),
+                                Score = Int32.Parse(row[7])
+                            };
+                            ls.Add(sr);
+                        }
                     }
+                    else
+                    {
+
+                        if (row[0].Contains(account))
+                        {
+                            var sr = new SearchResult
+                            {
+                                SPlusCode = row[0],
+                                Fullname = row[1],
+                                Store = row[2],
+                                Region = row[3],
+                                ActivityCode = row[4],
+                                IsLearned = row[5],
+                                SecondTest = Int32.Parse(row[6]),
+                                Score = Int32.Parse(row[7])
+                            };
+                            ls.Add(sr);
+                        }
+                    }
+                   
                 }
             }
             return ls;
@@ -208,7 +231,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("MM");
             datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
 
             return Ok(datas);
         }
@@ -264,7 +287,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x=>x.ID).FirstOrDefault().Dateupdate;
 
             return Ok(datas);
         }
@@ -320,7 +343,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("VHC");
             datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
 
             return Ok(datas);
         }
@@ -375,7 +398,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("PICO");
             datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.LastOrDefault().Dateupdate;
+            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
 
             return Ok(datas);
         }
