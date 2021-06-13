@@ -72,8 +72,10 @@ namespace Splusreport.Controllers
             var datas = new SearchModel();
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
-
+            var m = SelectScoreDMX_Results.FirstOrDefault(x => x.Region.Contains("Quảng Thanh"));
+            
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Store);
+
             var lsos = new List<StoreOrderView>();
             foreach (var items in groups)
             {
@@ -135,7 +137,7 @@ namespace Splusreport.Controllers
         {
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
-
+            
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Region);
             var lsos = new List<StoreOrderView>();
             foreach (var items in groups)
