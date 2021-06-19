@@ -13,8 +13,8 @@ namespace Splusreport.Controllers
     public class AdminController : Controller
     {
         private readonly SPlusReportEntities _db = new SPlusReportEntities();
-        private static string path = "";
-        private static string pathNK = "";
+        private static string path = "~/Uploads/Data.csv";
+        private static string pathNK = "~/Uploads/DataNK.csv";
 
         // GET: DearlerFSM
         public ActionResult Index()
@@ -107,6 +107,8 @@ namespace Splusreport.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult CreateSplus(FormCollection collection, HttpPostedFileBase file)
+
+
         {
             try
             {
@@ -348,7 +350,7 @@ namespace Splusreport.Controllers
 
                         //tạo biến chứa dữ liệu nhân viên cần thêm hoặc sửa vào data tìm kiếm
                         var changes = new List<SplusActivityUpload>();
-                        var searchResults = _db.DearlerFSMUploads.Select(x => new SearchResult
+                        var searchResults = _db.DearlerFSMUploads.Where(x=>x.Dealer == "NK").Select(x => new SearchResult
                         {
                             SPlusCode = x.SPlusCode,
                             Fullname = x.Fullname,
@@ -386,7 +388,7 @@ namespace Splusreport.Controllers
                                 {
                                     continue;
                                 }
-                               
+                                objStudent.LoginID = loginId;
                                 objStudent.ActivityCode = Convert.ToString(dtStudentRecords.Rows[i][6]);
                                 decimal score = 0;
                                 decimal secondTest = 0;
@@ -453,7 +455,7 @@ namespace Splusreport.Controllers
                                     foreach (var s in searchResults)
                                     {
                                         var spluscode = s.SPlusCode.ToUpper();
-
+                                        
                                         var input = changes.FirstOrDefault(x => x.LoginID.ToUpper() == spluscode);
 
                                         if (input != null)
