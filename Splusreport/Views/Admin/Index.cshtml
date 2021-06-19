@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upload file Splus Activity Daily</h2>
+<h2>Upload file Splus Activity Daily: DMX, MM, PICO, VHC, CP</h2>
 
 @using (Html.BeginForm("CreateSplus", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
 {
@@ -30,6 +30,34 @@
     </div>
 
 }
+
+<h2>Upload file Splus Activity Daily: NK</h2>
+
+@using (Html.BeginForm("CreateSplusNK", "Admin", FormMethod.Post, new { enctype = "multipart/form-data", @id = "formID" }))
+{
+    @Html.AntiForgeryToken()
+
+
+    <div class="input-group">
+
+        @if (TempData["SSuccess"] != null)
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-success" })
+
+        }
+        else
+        {
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+
+        }
+
+        <input type="file" name="file" class="form-control" id="exampleInputFile">
+        <button type="submit" class="btn btn-primary">Submit</button>
+
+    </div>
+
+}
+
 
 <br />
 <br />

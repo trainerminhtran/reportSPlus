@@ -16,6 +16,10 @@ namespace Splusreport.Controllers
         public List<SearchResult> FindByAccount(string account)
         {
             var ls = new List<SearchResult>();
+            if (account == "NK")
+            {
+                path = System.Web.HttpContext.Current.Request.MapPath("~/Uploads/DataNK.csv");
+            }
             using (CsvFileReader reade = new CsvFileReader(path))
             {
                 
@@ -72,7 +76,6 @@ namespace Splusreport.Controllers
             var datas = new SearchModel();
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
-            var m = SelectScoreDMX_Results.FirstOrDefault(x => x.Region.Contains("Quảng Thanh"));
             
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Store);
 
