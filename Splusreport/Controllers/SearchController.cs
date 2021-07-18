@@ -13,22 +13,20 @@ namespace Splusreport.Controllers
     {
         private readonly SPlusReportEntities _db = new SPlusReportEntities();
         private string path = System.Web.HttpContext.Current.Request.MapPath("~/Uploads/Data.csv");
+        private string pathNK = System.Web.HttpContext.Current.Request.MapPath("~/Uploads/DataNK.csv");
         public List<SearchResult> FindByAccount(string account)
         {
             var ls = new List<SearchResult>();
-            if (account == "NK")
-            {
-                path = System.Web.HttpContext.Current.Request.MapPath("~/Uploads/DataNK.csv");
-            }
+
             using (CsvFileReader reade = new CsvFileReader(path))
             {
-                
+
                 CsvRow row = new CsvRow();
                 while (reade.ReadRow(row))
                 {
                     if (account == "DMX")
                     {
-                        if (row[0].Contains(account.ToUpper()) || row[0].Contains("TGDD")|| row[0].Contains("dmx"))
+                        if (row[0].Contains(account.ToUpper()) || row[0].Contains("TGDD") || row[0].Contains("dmx"))
                         {
                             var sr = new SearchResult
                             {
@@ -39,7 +37,9 @@ namespace Splusreport.Controllers
                                 ActivityCode = row[4],
                                 IsLearned = row[5],
                                 SecondTest = Int32.Parse(row[6]),
-                                Score = Int32.Parse(row[7])
+                                Score = Int32.Parse(row[7]),
+                                SecondLearn = Int32.Parse(row[8]),
+                                TimesLearn = Int32.Parse(row[9]),
                             };
                             ls.Add(sr);
                         }
@@ -58,12 +58,40 @@ namespace Splusreport.Controllers
                                 ActivityCode = row[4],
                                 IsLearned = row[5],
                                 SecondTest = Int32.Parse(row[6]),
-                                Score = Int32.Parse(row[7])
+                                Score = Int32.Parse(row[7]),
+                                SecondLearn = Int32.Parse(row[8]),
+                                TimesLearn = Int32.Parse(row[9]),
                             };
                             ls.Add(sr);
                         }
                     }
-                   
+
+                }
+            }
+            return ls;
+        }
+        public List<SearchResult> FindByAccountNK()
+        {
+            var ls = new List<SearchResult>();
+
+            using (CsvFileReader reade = new CsvFileReader(pathNK))
+            {
+
+                CsvRow row = new CsvRow();
+                while (reade.ReadRow(row))
+                {
+                        var sr = new SearchResult
+                        {
+                            SPlusCode = row[0],
+                            Fullname = row[1],
+                            Store = row[2],
+                            Region = row[3],
+                            ActivityCode = row[4],
+                            IsLearned = row[5],
+                            SecondTest = Int32.Parse(row[6]),
+                            Score = Int32.Parse(row[7])
+                        };
+                        ls.Add(sr);
                 }
             }
             return ls;
@@ -72,11 +100,11 @@ namespace Splusreport.Controllers
         [HttpGet]
         public IHttpActionResult SearchDMX()
         {
-           
+
             var datas = new SearchModel();
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
-            
+
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Store);
 
             var lsos = new List<StoreOrderView>();
@@ -122,7 +150,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("DMX");
             datas.ListStoreOrder = lsos;
-            
+
             var lastupdate = _db.Dayupdates.OrderByDescending(obj => obj.ID).FirstOrDefault();
             if (lastupdate == null)
             {
@@ -140,7 +168,7 @@ namespace Splusreport.Controllers
         {
 
             var SelectScoreDMX_Results = FindByAccount("DMX");
-            
+
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Region);
             var lsos = new List<StoreOrderView>();
             foreach (var items in groups)
@@ -246,7 +274,7 @@ namespace Splusreport.Controllers
         {
             var datas = new SearchModelNK();
 
-            var SelectScoreNK_Results = FindByAccount("NK");
+            var SelectScoreNK_Results = FindByAccountNK();
 
             var groups = SelectScoreNK_Results.GroupBy(x => x.Store);
             var lsos = new List<StoreOrderView>();
@@ -292,7 +320,7 @@ namespace Splusreport.Controllers
             }
             datas.Data = FindByAccount("NK");
             datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x=>x.ID).FirstOrDefault().Dateupdate;
+            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
 
             return Ok(datas);
         }

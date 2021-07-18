@@ -16,6 +16,8 @@ namespace Splusreport.Models
         public int SecondTest { get; set; }
 
         public int Score { get; set; }
+        public int SecondLearn { get; set; }
+        public int TimesLearn { get; set; }
     }
 
     public class NoChange

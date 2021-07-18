@@ -15,6 +15,18 @@ namespace Splusreport.Controllers
         private readonly SPlusReportEntities _db = new SPlusReportEntities();
         private static string path = "~/Uploads/Data.csv";
         private static string pathNK = "~/Uploads/DataNK.csv";
+        private static string[] title = new string[] {
+                     "SPlusCode",
+                     "Fullname",
+                     "Store",
+                     "Region",
+                     "ActivityCode",
+                     "IsLearned",
+                     "SecondTest",
+                     "Score",
+                     "SecondLearn",
+                     "TimesLearn"
+                };
 
         // GET: DearlerFSM
         public ActionResult Index()
@@ -28,16 +40,7 @@ namespace Splusreport.Controllers
             if (!System.IO.File.Exists(path))
             {
 
-                string[] title = new string[] {
-                     "SPlusCode",
-                     "Fullname",
-                     "Store",
-                     "Region",
-                     "ActivityCode",
-                     "IsLearned",
-                     "SecondTest",
-                     "Score"
-                };
+            
                 // Write sample data to CSV file
                 using (CsvFileWriter writer = new CsvFileWriter(path))
                 {
@@ -53,7 +56,7 @@ namespace Splusreport.Controllers
             if (!System.IO.File.Exists(pathNK))
             {
 
-                string[] title = new string[] {
+                string[] titleNK = new string[] {
                      "SPlusCode",
                      "Fullname",
                      "Store",
@@ -68,8 +71,8 @@ namespace Splusreport.Controllers
                 {
                     //Add data to row
                     CsvRow row = new CsvRow();
-                    for (int j = 0; j < title.Length; j++)
-                        row.Add(title[j]);
+                    for (int j = 0; j < titleNK.Length; j++)
+                        row.Add(titleNK[j]);
 
                     //add row to file
                     writer.WriteRow(row);
@@ -155,7 +158,9 @@ namespace Splusreport.Controllers
                             ActivityCode = "",
                             IsLearned = "",
                             SecondTest = 0,
-                            Score = 0
+                            Score = 0,
+                            SecondLearn = 0,
+                            TimesLearn = 0
                         }).ToList();
 
                       
@@ -192,6 +197,7 @@ namespace Splusreport.Controllers
                                 //{
                                 //    objStudent.LoginID = "CE.DMX31228";
                                 //}
+                                objStudent.ActivityName = Convert.ToString(dtStudentRecords.Rows[i][5]);
                                 objStudent.ActivityCode = Convert.ToString(dtStudentRecords.Rows[i][6]);
                                 decimal score = 0;
                                 decimal secondTest = 0;
@@ -207,12 +213,39 @@ namespace Splusreport.Controllers
                                 }
                                 else
                                 {
-                                    objStudent.Score = 0;
                                     objStudent.SecondTest = 0;
                                 }
                                 //Đánh dấu đã học bài (luôn luôn đã học bài vì có thể học bài, hoặc làm bài test cũng tính học bài
-                                objStudent.IsLearned = "Yes";
-                               
+                             
+                                string[] add3point = { 
+                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí, Máy Hút Bụi, Lò Vi Sóng Samsung - Tháng 07/2021",
+                                    "[Đề Xuất] - Bài Học Tham Khảo 1 - Tháng 07/2021", 
+                                };
+                                string[] add1point = {
+                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Lò Vi Sóng Samsung - Tháng 07/2021",
+                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí Samsung - Tháng 07/2021",
+                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Hút Bụi Samsung - Tháng 07/2021",
+                                };
+                                if (add3point.Contains(objStudent.ActivityName))
+                                {
+                                    objStudent.TimesLearn = 3;
+                                    objStudent.SecondLearn = (int)secondTest;
+                                }
+                                
+                                if (add1point.Contains(objStudent.ActivityName))
+                                {
+                                    objStudent.TimesLearn = 1;
+                                    objStudent.SecondLearn = (int)secondTest;
+                                }
+                                if (objStudent.TimesLearn >= 3 &&  (objStudent.SecondLearn/60)>=6)
+                                {
+                                    objStudent.IsLearned = "Yes";
+                                }
+                                else
+                                {
+                                    objStudent.IsLearned = "";
+                                }
+
                                 var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
                                 if (b != null)
                                 {
@@ -222,6 +255,14 @@ namespace Splusreport.Controllers
                                         b.Score = objStudent.Score;
                                         b.SecondTest = objStudent.SecondTest;
                                     }
+
+                                    //bài học
+                                    b.TimesLearn += objStudent.TimesLearn;
+                                    b.SecondLearn += objStudent.SecondLearn;
+                                    if (b.TimesLearn >= 3 && (b.SecondLearn / 60) >= 6)
+                                    {
+                                        b.IsLearned = "Yes";
+                                    }
                                 }
                                 else
                                 {
@@ -229,16 +270,7 @@ namespace Splusreport.Controllers
                                 }
                             }
                             // Write sample data to CSV file
-                            string[] title = new string[] {
-                                 "SPlusCode",
-                                 "Fullname",
-                                 "Store",
-                                 "Region",
-                                 "ActivityCode",
-                                 "IsLearned",
-                                 "SecondTest",
-                                 "Score"
-                            };
+                           
                             if (System.IO.File.Exists(path))
                             {
 
@@ -272,6 +304,8 @@ namespace Splusreport.Controllers
                                             {
                                                 testedNew++;
                                             }
+                                            s.SecondLearn = input.SecondLearn;
+                                            s.TimesLearn = input.TimesLearn;
                                         }
                                         //Add data to row
                                         row = new CsvRow();
@@ -283,6 +317,8 @@ namespace Splusreport.Controllers
                                         row.Add(s.IsLearned);
                                         row.Add(s.SecondTest.ToString());
                                         row.Add(s.Score.ToString());
+                                        row.Add(s.SecondLearn.ToString());
+                                        row.Add(s.TimesLearn.ToString());
 
                                         
                                         //add row to file
