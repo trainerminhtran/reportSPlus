@@ -18,6 +18,20 @@ namespace Splusreport.Models
         public int Score { get; set; }
         public int SecondLearn { get; set; }
         public int TimesLearn { get; set; }
+        public string IsComplete { get; set; }
+
+    } public class SearchResultNK
+    {
+        public string SPlusCode { get; set; }
+        public string Fullname { get; set; }
+        public string Store { get; set; }
+        public string Region { get; set; }
+        public string ActivityCode { get; set; }
+        public string IsLearned { get; set; }
+        public int SecondTest { get; set; }
+
+        public int Score { get; set; }
+
     }
 
     public class NoChange

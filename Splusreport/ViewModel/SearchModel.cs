@@ -23,7 +23,7 @@ namespace Splusreport.ViewModel
     }
     public class SearchModelNK
     {
-        public List<SearchResult> Data { get; set; }
+        public List<SearchResultNK> Data { get; set; }
 
         public List<StoreOrderView> ListStoreOrder { get; set; }
         public DateTime Dayupdate { get; set; }

@@ -26,6 +26,7 @@ namespace Splusreport.Models
         public int SecondLearn { get; set; }
         public int TimesLearn { get; set; }
         public string IsLearned { get; set; }
+        public string IsComplete { get; set; }
     
 
     }

@@ -40,6 +40,7 @@ namespace Splusreport.Controllers
                                 Score = Int32.Parse(row[7]),
                                 SecondLearn = Int32.Parse(row[8]),
                                 TimesLearn = Int32.Parse(row[9]),
+                                IsComplete = row[10]
                             };
                             ls.Add(sr);
                         }
@@ -61,6 +62,7 @@ namespace Splusreport.Controllers
                                 Score = Int32.Parse(row[7]),
                                 SecondLearn = Int32.Parse(row[8]),
                                 TimesLearn = Int32.Parse(row[9]),
+                                IsComplete = row[10]
                             };
                             ls.Add(sr);
                         }
@@ -70,28 +72,33 @@ namespace Splusreport.Controllers
             }
             return ls;
         }
-        public List<SearchResult> FindByAccountNK()
+        public List<SearchResultNK> FindByAccountNK()
         {
-            var ls = new List<SearchResult>();
+            var ls = new List<SearchResultNK>();
 
             using (CsvFileReader reade = new CsvFileReader(pathNK))
             {
-
+                var i = 1;
                 CsvRow row = new CsvRow();
                 while (reade.ReadRow(row))
                 {
-                        var sr = new SearchResult
-                        {
-                            SPlusCode = row[0],
-                            Fullname = row[1],
-                            Store = row[2],
-                            Region = row[3],
-                            ActivityCode = row[4],
-                            IsLearned = row[5],
-                            SecondTest = Int32.Parse(row[6]),
-                            Score = Int32.Parse(row[7])
-                        };
-                        ls.Add(sr);
+                    if (i == 1)
+                    {
+                        continue;
+                    }
+                    var sr = new SearchResultNK
+                    {
+                        SPlusCode = row[0],
+                        Fullname = row[1],
+                        Store = row[2],
+                        Region = row[3],
+                        ActivityCode = row[4],
+                        IsLearned = row[5],
+                        SecondTest = Int32.Parse(row[6]),
+                        Score = Int32.Parse(row[7])
+                    };
+                    ls.Add(sr);
+                    i++;
                 }
             }
             return ls;
@@ -116,9 +123,12 @@ namespace Splusreport.Controllers
                     AverageScore = 0,
                     TotalScore = 0,
                     TotalTested = 0,
+                    TotalLearned = 0,
+                    RateLearned = 0,
                     RateTested = 0,
                     SecondTest = 0,
-                    Gold = 0
+                    Gold = 0,
+                    TotalComplete = 0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -132,12 +142,20 @@ namespace Splusreport.Controllers
                         lso.TotalScore += itemscore;
                         lso.TotalTested++;
                     }
+                    if (item.IsLearned == "Yes")
+                    {
+                        lso.TotalLearned++;
+                    }
+                    if (item.IsComplete == "Yes")
+                    {
+                        lso.TotalComplete++;
+                    }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 lso.Gold = lso.AverageScore + lso.RateTested;
-
+                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 if (lso.TotalEmployee >= 5)
                 {
                     lsos.Add(lso);
@@ -178,7 +196,10 @@ namespace Splusreport.Controllers
                     TotalEmployee = 0,
                     AverageScore = 0,
                     TotalScore = 0,
-                    TotalTested = 0
+                    TotalTested = 0,
+                    TotalLearned = 0,
+                    RateLearned = 0,
+                    TotalComplete =0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -190,11 +211,20 @@ namespace Splusreport.Controllers
                         lso.TotalScore += itemscore;
                         lso.TotalTested++;
                     }
+                    if (item.IsLearned == "Yes")
+                    {
+                        lso.TotalLearned++;
+                    }
+                    if (item.IsComplete == "Yes")
+                    {
+                        lso.TotalComplete++;
+                    }
                 }
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
+                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 lsos.Add(lso);
             }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.TotalEmployee).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -206,8 +236,10 @@ namespace Splusreport.Controllers
                 StoreName = "Tổng cộng",
                 TotalEmployee = lsos.Sum(x => x.TotalEmployee),
                 RateTested = decimal.Round(((decimal)lsos.Sum(x => x.TotalTested) / (decimal)lsos.Sum(x => x.TotalEmployee)) * 100, 2, MidpointRounding.AwayFromZero),
+                RateLearned = decimal.Round(((decimal)lsos.Sum(x => x.TotalLearned) / (decimal)lsos.Sum(x => x.TotalEmployee)) * 100, 2, MidpointRounding.AwayFromZero),
                 TotalScore = lsos.Sum(x => x.TotalScore),
-                TotalTested = lsos.Sum(x => x.TotalTested)
+                TotalTested = lsos.Sum(x => x.TotalTested),
+                TotalComplete = lsos.Sum(x=>x.TotalComplete)
             };
             lsos.Add(ls);
             return Ok(lsos);
@@ -230,9 +262,11 @@ namespace Splusreport.Controllers
                     AverageScore = 0,
                     TotalScore = 0,
                     TotalTested = 0,
+                    TotalLearned = 0,
+                    RateLearned = 0,
                     RateTested = 0,
                     SecondTest = 0,
-                    Gold = 0
+                    TotalComplete = 0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -246,18 +280,26 @@ namespace Splusreport.Controllers
                         lso.TotalScore += itemscore;
                         lso.TotalTested++;
                     }
+                    if (item.IsLearned == "Yes")
+                    {
+                        lso.TotalLearned++;
+                    }
+                    if (item.IsComplete == "Yes")
+                    {
+                        lso.TotalComplete++;
+                    }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 lso.Gold = lso.AverageScore + lso.RateTested;
-
+                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 if (lso.TotalEmployee >= 5)
                 {
                     lsos.Add(lso);
                 }
             }
-            lsos = lsos.OrderByDescending(o => o.Gold).ThenBy(x => x.AverageSecond).ThenByDescending(i => i.TotalEmployee).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -318,7 +360,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = FindByAccount("NK");
+            datas.Data = FindByAccountNK();
             datas.ListStoreOrder = lsos;
             datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
 
@@ -342,9 +384,11 @@ namespace Splusreport.Controllers
                     AverageScore = 0,
                     TotalScore = 0,
                     TotalTested = 0,
+                    TotalLearned = 0,
+                    RateLearned = 0,
                     RateTested = 0,
                     SecondTest = 0,
-                    Gold = 0
+                    TotalComplete = 0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -358,18 +402,26 @@ namespace Splusreport.Controllers
                         lso.TotalScore += itemscore;
                         lso.TotalTested++;
                     }
+                    if (item.IsLearned == "Yes")
+                    {
+                        lso.TotalLearned++;
+                    }
+                    if (item.IsComplete == "Yes")
+                    {
+                        lso.TotalComplete++;
+                    }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 lso.Gold = lso.AverageScore + lso.RateTested;
-
+                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 if (lso.TotalEmployee >= 5)
                 {
                     lsos.Add(lso);
                 }
             }
-            lsos = lsos.OrderByDescending(o => o.Gold).ThenBy(x => x.AverageSecond).ThenByDescending(i => i.TotalEmployee).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
@@ -397,9 +449,11 @@ namespace Splusreport.Controllers
                     AverageScore = 0,
                     TotalScore = 0,
                     TotalTested = 0,
+                    TotalLearned = 0,
+                    RateLearned = 0,
                     RateTested = 0,
                     SecondTest = 0,
-                    Gold = 0
+                    TotalComplete = 0
                 };
                 lso.TotalEmployee = items.Count();
                 foreach (var item in items)
@@ -413,18 +467,26 @@ namespace Splusreport.Controllers
                         lso.TotalScore += itemscore;
                         lso.TotalTested++;
                     }
+                    if (item.IsLearned == "Yes")
+                    {
+                        lso.TotalLearned++;
+                    }
+                    if (item.IsComplete == "Yes")
+                    {
+                        lso.TotalComplete++;
+                    }
                 }
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 lso.Gold = lso.AverageScore + lso.RateTested;
-
+                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
                 if (lso.TotalEmployee >= 5)
                 {
                     lsos.Add(lso);
                 }
             }
-            lsos = lsos.OrderByDescending(o => o.Gold).ThenBy(x => x.AverageSecond).ThenByDescending(i => i.TotalEmployee).ToList();
+            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
             for (int i = 0; i < lsos.Count; i++)
             {
                 lsos[i].Order = i + 1;
