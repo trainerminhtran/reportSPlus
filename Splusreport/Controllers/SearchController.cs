@@ -84,6 +84,7 @@ namespace Splusreport.Controllers
                 {
                     if (i == 1)
                     {
+                        i++;
                         continue;
                     }
                     var sr = new SearchResultNK
@@ -98,7 +99,6 @@ namespace Splusreport.Controllers
                         Score = Int32.Parse(row[7])
                     };
                     ls.Add(sr);
-                    i++;
                 }
             }
             return ls;
@@ -236,7 +236,7 @@ namespace Splusreport.Controllers
                 StoreName = "Tổng cộng",
                 TotalEmployee = lsos.Sum(x => x.TotalEmployee),
                 RateTested = decimal.Round(((decimal)lsos.Sum(x => x.TotalTested) / (decimal)lsos.Sum(x => x.TotalEmployee)) * 100, 2, MidpointRounding.AwayFromZero),
-                RateLearned = decimal.Round(((decimal)lsos.Sum(x => x.TotalLearned) / (decimal)lsos.Sum(x => x.TotalEmployee)) * 100, 2, MidpointRounding.AwayFromZero),
+                TotalLearned = lsos.Sum(x => x.TotalLearned),
                 TotalScore = lsos.Sum(x => x.TotalScore),
                 TotalTested = lsos.Sum(x => x.TotalTested),
                 TotalComplete = lsos.Sum(x=>x.TotalComplete)
@@ -348,9 +348,17 @@ namespace Splusreport.Controllers
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                lso.Gold = lso.AverageScore + lso.RateTested;
+                if (lso.TotalEmployee >= 10)
+                {
+                    lso.Gold = lso.AverageScore + lso.RateTested;
 
-                if (lso.TotalEmployee >= 5)
+                }
+                else
+                {
+                    lso.Gold = 0;
+                }
+
+                if (lso.TotalEmployee >= 0)
                 {
                     lsos.Add(lso);
                 }

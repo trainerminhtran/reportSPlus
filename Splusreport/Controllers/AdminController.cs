@@ -185,7 +185,10 @@ namespace Splusreport.Controllers
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
                                 var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]).ToUpper();
-
+                                if (loginId == "CE.MM00323874")
+                                {
+                                    var m = loginId + "M";
+                                }
                                 if (loginId.Contains("TGDD"))
                                 {
                                     loginId = loginId.Replace("TGDD", "DMX");
@@ -272,7 +275,7 @@ namespace Splusreport.Controllers
                                     {
                                         b.IsLearned = "Yes";
                                     }
-                                    if (b.IsComplete == "Yes" || (objStudent.IsLearned == "Yes" && b.Score > 0))
+                                    if (b.IsComplete == "Yes" || (b.IsLearned == "Yes" && b.Score > 0))
                                     {
                                         b.IsComplete = "Yes";
                                     }
