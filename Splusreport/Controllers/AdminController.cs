@@ -26,7 +26,9 @@ namespace Splusreport.Controllers
                      "Score",
                      "SecondLearn",
                      "TimesLearn",
-                     "Đạt"
+                     "Đạt",
+                     "MNV",
+                     "IsTested"
                 };
 
         // GET: DearlerFSM
@@ -65,7 +67,7 @@ namespace Splusreport.Controllers
                      "ActivityCode",
                      "IsLearned",
                      "SecondTest",
-                     "Score"
+                     "Score",
                 };
                 // Write sample data to CSV file
                 using (CsvFileWriter writer = new CsvFileWriter(pathNK))
@@ -152,17 +154,19 @@ namespace Splusreport.Controllers
                         var changes = new List<SplusActivityUpload>();
                         var searchResults = _db.DearlerFSMUploads.Select(x => new SearchResult
                         {
+                            MNV = x.MNV,
                             SPlusCode = x.SPlusCode,
                             Fullname = x.Fullname,
                             Region = x.Region,
                             Store = x.Store,
                             ActivityCode = "",
+                            IsTested = "",
                             IsLearned = "",
                             SecondTest = 0,
                             Score = 0,
                             SecondLearn = 0,
                             TimesLearn = 0,
-                            IsComplete = "No"
+                            IsComplete = ""
                         }).ToList();
 
 
@@ -185,19 +189,16 @@ namespace Splusreport.Controllers
                                 SplusActivityUpload objStudent = new SplusActivityUpload();
                                 objStudent.AttempStartdate = date;
                                 var loginId = Convert.ToString(dtStudentRecords.Rows[i][1]).ToUpper();
-                                if (loginId == "CE.MM00323874")
-                                {
-                                    var m = loginId + "M";
-                                }
+
                                 if (loginId.Contains("TGDD"))
                                 {
                                     loginId = loginId.Replace("TGDD", "DMX");
                                 }
                                 objStudent.LoginID = loginId.Contains("CE.") ? loginId : "CE." + loginId;
-                                if (loginId.Contains("NK"))
-                                {
-                                    continue;
-                                }
+                                //if (loginId.Contains("NK"))
+                                //{
+                                //    continue;
+                                //}
                                 //if (objStudent.LoginID == "CE.DMX31228")
                                 //{
                                 //    objStudent.LoginID = "CE.DMX31228";
@@ -214,71 +215,75 @@ namespace Splusreport.Controllers
                                 if (objStudent.ActivityCode.ToLower().Contains("test"))
                                 {
                                     objStudent.Score = (int)score;
-                                    objStudent.SecondTest = (int)secondTest;
+                                    if (objStudent.Score >= 10)
+                                    {
+                                        objStudent.IsTested = "Yes";
+                                    }
+                                    else
+                                    {
+                                        objStudent.IsTested = "No";
+                                    }
+                                    objStudent.SecondTest =  decimal.Round(((decimal)secondTest / 60) , 2, MidpointRounding.AwayFromZero);
                                 }
                                 else
                                 {
                                     objStudent.SecondTest = 0;
+                                    objStudent.IsTested = "No";
                                 }
                                 //Đánh dấu đã học bài (luôn luôn đã học bài vì có thể học bài, hoặc làm bài test cũng tính học bài
 
-                                string[] add3point = {
-                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí, Máy Hút Bụi, Lò Vi Sóng Samsung - Tháng 07/2021",
-                                    "[Đề Xuất] - Bài Học Tham Khảo 1 - Tháng 07/2021",
-                                };
-                                string[] add1point = {
-                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Lò Vi Sóng Samsung - Tháng 07/2021",
-                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí Samsung - Tháng 07/2021",
-                                    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Hút Bụi Samsung - Tháng 07/2021",
-                                };
-                                if (add3point.Contains(objStudent.ActivityName))
-                                {
-                                    objStudent.TimesLearn = 3;
-                                    objStudent.SecondLearn = (int)secondTest;
-                                }
+                                //string[] add3point = {
+                                //    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí, Máy Hút Bụi, Lò Vi Sóng Samsung - Tháng 07/2021",
+                                //    "[Đề Xuất] - Bài Học Tham Khảo 1 - Tháng 07/2021",
+                                //};
+                                //string[] add1point = {
+                                //    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Lò Vi Sóng Samsung - Tháng 07/2021",
+                                //    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Lọc Không Khí Samsung - Tháng 07/2021",
+                                //    "[Quan Trọng] - Video Cẩm Nang Bán Hàng - Máy Hút Bụi Samsung - Tháng 07/2021",
+                                //};
+                                //if (add3point.Contains(objStudent.ActivityName))
+                                //{
+                                //    objStudent.TimesLearn = 2;
+                                //    objStudent.SecondLearn = (int)secondTest;
+                                //}
 
-                                if (add1point.Contains(objStudent.ActivityName))
+                                //if (add1point.Contains(objStudent.ActivityName))
+                                //{
+                                //    objStudent.TimesLearn = 1;
+                                //    objStudent.SecondLearn = (int)secondTest;
+                                //}                                
+                                if (objStudent.ActivityCode.Contains("IMP"))
                                 {
                                     objStudent.TimesLearn = 1;
-                                    objStudent.SecondLearn = (int)secondTest;
+                                    objStudent.SecondLearn = decimal.Round(((decimal)secondTest / 60), 2, MidpointRounding.AwayFromZero);
+
                                 }
-                                if (objStudent.TimesLearn >= 3 && (objStudent.SecondLearn / 60) >= 6)
-                                {
-                                    objStudent.IsLearned = "Yes";
-                                }
-                                else
-                                {
-                                    objStudent.IsLearned = "";
-                                }
-                                if (objStudent.IsLearned == "Yes" && objStudent.Score > 0)
-                                {
-                                    objStudent.IsComplete = "Yes";
-                                }
-                                else
-                                {
-                                    objStudent.IsComplete = "No";
-                                }
-                                var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
+                                objStudent.IsComplete = "No";
+                                objStudent.IsLearned = "No";
+                                 var b = changes.Where(x => x.LoginID == objStudent.LoginID).FirstOrDefault();
                                 if (b != null)
                                 {
                                     // So sánh điểm test cũ nếu điểm bài test cũ ít điểm hơn sẽ thay thế bằng điểm và thời gian làm bài mới
                                     if (b.Score < objStudent.Score)
                                     {
                                         b.Score = objStudent.Score;
+                                        b.IsTested = objStudent.IsTested;
                                         b.SecondTest = objStudent.SecondTest;
                                     }
 
                                     //bài học
                                     b.TimesLearn += objStudent.TimesLearn;
                                     b.SecondLearn += objStudent.SecondLearn;
-                                    if (b.TimesLearn >= 3 && (b.SecondLearn / 60) >= 6)
+                                    if (b.TimesLearn >= 2 && b.SecondLearn >= 4)
                                     {
                                         b.IsLearned = "Yes";
                                     }
-                                    if (b.IsComplete == "Yes" || (b.IsLearned == "Yes" && b.Score > 0))
+                                  
+                                    if (b.IsComplete == "Yes" || (b.IsLearned == "Yes" && b.Score >= 10))
                                     {
                                         b.IsComplete = "Yes";
                                     }
+                                    
                                 }
                                 else
                                 {
@@ -291,12 +296,11 @@ namespace Splusreport.Controllers
                             {
 
                                 // Read sample data from CSV file
-                                ReaderCSV(path, out learnedOld, out testedOld);
-
+                                //ReaderCSV(path, out learnedOld, out testedOld);
 
                                 using (CsvFileWriter writer = new CsvFileWriter(path))
                                 {
-                                    //Tạo tiêu đề
+                                    ////Tạo tiêu đề
                                     CsvRow row = new CsvRow();
                                     for (int j = 0; j < title.Length; j++)
                                         row.Add(title[j]);
@@ -305,6 +309,10 @@ namespace Splusreport.Controllers
                                     //searchResults fillin
                                     for (int i = 0; i < searchResults.Count(); i++)
                                     {
+                                        if (i == 644 )
+                                        {
+                                            var errorr = "m";
+                                        }
                                         var s = searchResults[i];
                                         var spluscode = s.SPlusCode.ToUpper();
 
@@ -313,6 +321,7 @@ namespace Splusreport.Controllers
                                         if (input != null)
                                         {
                                             s.IsLearned = input.IsLearned;
+                                            s.IsTested = input.IsTested;
                                             s.Score = input.Score;
                                             s.SecondTest = input.SecondTest;
                                             s.ActivityCode = input.ActivityCode;
@@ -337,19 +346,17 @@ namespace Splusreport.Controllers
                                         row.Add(s.Score.ToString());
                                         row.Add(s.SecondLearn.ToString());
                                         row.Add(s.TimesLearn.ToString());
-                                        if (s.IsComplete == null)
-                                        {
-                                            row.Add("");
-                                        }
-                                        else
-                                        {
-                                            row.Add(s.IsComplete.ToString());
-                                        }
+                                        row.Add(s.IsComplete);
+                                        row.Add(s.MNV);
+                                        row.Add(s.IsTested);
+
                                         //add row to file
                                         writer.WriteRow(row);
+
                                     }
                                 }
-                                message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";
+                                //message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";                                //message = "Successfully uploaded. Have " + (learnedNew - learnedOld) + " learned and " + (testedNew - testedOld) + " tested today";
+                                message = "Successfully uploaded.";
                             }
                         }//end readfile activity
                     }
@@ -418,6 +425,7 @@ namespace Splusreport.Controllers
                             Store = x.Store,
                             ActivityCode = "",
                             IsLearned = "",
+                            IsTested = "",
                             SecondTest = 0,
                             Score = 0
                         }).ToList();

@@ -36,11 +36,12 @@ namespace Splusreport.Controllers
                                 Region = row[3],
                                 ActivityCode = row[4],
                                 IsLearned = row[5],
-                                SecondTest = Int32.Parse(row[6]),
+                                SecondTest = decimal.Parse(row[6]),
                                 Score = Int32.Parse(row[7]),
-                                SecondLearn = Int32.Parse(row[8]),
+                                SecondLearn = decimal.Parse(row[8]),
                                 TimesLearn = Int32.Parse(row[9]),
-                                IsComplete = row[10]
+                                IsComplete = row[10],
+                                MNV = row[11]
                             };
                             ls.Add(sr);
                         }
@@ -48,7 +49,7 @@ namespace Splusreport.Controllers
                     else
                     {
 
-                        if (row[0].Contains(account))
+                        if (row[1].Contains(account))
                         {
                             var sr = new SearchResult
                             {
@@ -58,11 +59,14 @@ namespace Splusreport.Controllers
                                 Region = row[3],
                                 ActivityCode = row[4],
                                 IsLearned = row[5],
-                                SecondTest = Int32.Parse(row[6]),
+                                SecondTest = decimal.Parse(row[6]),
                                 Score = Int32.Parse(row[7]),
-                                SecondLearn = Int32.Parse(row[8]),
+                                SecondLearn = decimal.Parse(row[8]),
                                 TimesLearn = Int32.Parse(row[9]),
-                                IsComplete = row[10]
+                                IsComplete = row[10],
+                                MNV = row[11],
+                                IsTested = row[12]
+
                             };
                             ls.Add(sr);
                         }
@@ -103,14 +107,19 @@ namespace Splusreport.Controllers
             }
             return ls;
         }
-
-        [HttpGet]
-        public IHttpActionResult SearchDMX()
+        // DMX 
+        //NK
+        //MM
+        //PICO
+        //VHC
+        //SAMNEC
+        //VIETHAN
+        public SearchModel Search(string Account)
         {
 
             var datas = new SearchModel();
 
-            var SelectScoreDMX_Results = FindByAccount("DMX");
+            var SelectScoreDMX_Results = FindByAccount(Account);
 
             var groups = SelectScoreDMX_Results.GroupBy(x => x.Store);
 
@@ -126,6 +135,7 @@ namespace Splusreport.Controllers
                     TotalLearned = 0,
                     RateLearned = 0,
                     RateTested = 0,
+                    RateComplete = 0,
                     SecondTest = 0,
                     Gold = 0,
                     TotalComplete = 0
@@ -140,11 +150,15 @@ namespace Splusreport.Controllers
                     {
                         lso.TotalSecond += itemSecond;
                         lso.TotalScore += itemscore;
-                        lso.TotalTested++;
+                       
                     }
                     if (item.IsLearned == "Yes")
                     {
                         lso.TotalLearned++;
+                    } 
+                    if (item.IsTested  == "Yes")
+                    {
+                        lso.TotalTested++;
                     }
                     if (item.IsComplete == "Yes")
                     {
@@ -154,9 +168,11 @@ namespace Splusreport.Controllers
                 lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
                 lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
                 lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                lso.Gold = lso.AverageScore + lso.RateTested;
                 lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                if (lso.TotalEmployee >= 5)
+                lso.RateComplete = decimal.Round(((decimal)lso.TotalComplete / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
+                lso.Gold = lso.AverageScore + lso.RateComplete;
+
+                if (lso.TotalEmployee >= 4)
                 {
                     lsos.Add(lso);
                 }
@@ -166,7 +182,7 @@ namespace Splusreport.Controllers
             {
                 lsos[i].Order = i + 1;
             }
-            datas.Data = FindByAccount("DMX");
+            datas.Data = FindByAccount(Account);
             datas.ListStoreOrder = lsos;
 
             var lastupdate = _db.Dayupdates.OrderByDescending(obj => obj.ID).FirstOrDefault();
@@ -178,9 +194,13 @@ namespace Splusreport.Controllers
             {
                 datas.Dayupdate = lastupdate.Dateupdate;
             }
-            return Ok(datas);
+            return datas;
         }
-
+        [HttpGet]
+        public IHttpActionResult SearchDMX()
+        {
+            return Ok(Search("DMX"));
+        }
         [HttpPost]
         public IHttpActionResult SearchRegion()
         {
@@ -248,262 +268,93 @@ namespace Splusreport.Controllers
         [HttpGet]
         public IHttpActionResult SearchMM()
         {
-            var datas = new SearchModelMM();
-
-            var SelectScoreMM_Results = FindByAccount("MM");
-
-            var groups = SelectScoreMM_Results.GroupBy(x => x.Store);
-            var lsos = new List<StoreOrderView>();
-            foreach (var items in groups)
-            {
-                var lso = new StoreOrderView
-                {
-                    TotalEmployee = 0,
-                    AverageScore = 0,
-                    TotalScore = 0,
-                    TotalTested = 0,
-                    TotalLearned = 0,
-                    RateLearned = 0,
-                    RateTested = 0,
-                    SecondTest = 0,
-                    TotalComplete = 0
-                };
-                lso.TotalEmployee = items.Count();
-                foreach (var item in items)
-                {
-                    lso.StoreName = item.Store;
-                    var itemscore = item.Score;
-                    var itemSecond = item.SecondTest;
-                    if (itemscore > 0)
-                    {
-                        lso.TotalSecond += itemSecond;
-                        lso.TotalScore += itemscore;
-                        lso.TotalTested++;
-                    }
-                    if (item.IsLearned == "Yes")
-                    {
-                        lso.TotalLearned++;
-                    }
-                    if (item.IsComplete == "Yes")
-                    {
-                        lso.TotalComplete++;
-                    }
-                }
-                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
-                lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                lso.Gold = lso.AverageScore + lso.RateTested;
-                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                if (lso.TotalEmployee >= 5)
-                {
-                    lsos.Add(lso);
-                }
-            }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
-            for (int i = 0; i < lsos.Count; i++)
-            {
-                lsos[i].Order = i + 1;
-            }
-            datas.Data = FindByAccount("MM");
-            datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
-
-            return Ok(datas);
+            return Ok(Search("MM"));
         }
 
         [HttpGet]
         public IHttpActionResult SearchNK()
         {
-            var datas = new SearchModelNK();
-
-            var SelectScoreNK_Results = FindByAccountNK();
-
-            var groups = SelectScoreNK_Results.GroupBy(x => x.Store);
-            var lsos = new List<StoreOrderView>();
-            foreach (var items in groups)
-            {
-                var lso = new StoreOrderView
-                {
-                    TotalEmployee = 0,
-                    AverageScore = 0,
-                    TotalScore = 0,
-                    TotalTested = 0,
-                    RateTested = 0,
-                    SecondTest = 0,
-                    Gold = 0
-                };
-                lso.TotalEmployee = items.Count();
-                foreach (var item in items)
-                {
-                    lso.StoreName = item.Store;
-                    var itemscore = item.Score;
-                    var itemSecond = item.SecondTest;
-                    if (itemscore > 0)
-                    {
-                        lso.TotalSecond += itemSecond;
-                        lso.TotalScore += itemscore;
-                        lso.TotalTested++;
-                    }
-                }
-                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
-                lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                if (lso.TotalEmployee >= 10)
-                {
-                    lso.Gold = lso.AverageScore + lso.RateTested;
-
-                }
-                else
-                {
-                    lso.Gold = 0;
-                }
-
-                if (lso.TotalEmployee >= 0)
-                {
-                    lsos.Add(lso);
-                }
-            }
-            lsos = lsos.OrderByDescending(o => o.Gold).ThenBy(x => x.AverageSecond).ThenByDescending(i => i.TotalEmployee).ToList();
-            for (int i = 0; i < lsos.Count; i++)
-            {
-                lsos[i].Order = i + 1;
-            }
-            datas.Data = FindByAccountNK();
-            datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
-
-            return Ok(datas);
+            return Ok(Search("NK"));
         }
+        //public IHttpActionResult SearchNK()
+        //{
+        //    var datas = new SearchModelNK();
+
+        //    //var SelectScoreNK_Results = FindByAccountNK();
+        //    var SelectScoreNK_Results = FindByAccount("Nk");
+
+        //    var groups = SelectScoreNK_Results.GroupBy(x => x.Store);
+        //    var lsos = new List<StoreOrderView>();
+        //    foreach (var items in groups)
+        //    {
+        //        var lso = new StoreOrderView
+        //        {
+        //            TotalEmployee = 0,
+        //            AverageScore = 0,
+        //            TotalScore = 0,
+        //            TotalTested = 0,
+        //            RateTested = 0,
+        //            SecondTest = 0,
+        //            Gold = 0
+        //        };
+        //        lso.TotalEmployee = items.Count();
+        //        foreach (var item in items)
+        //        {
+        //            lso.StoreName = item.Store;
+        //            var itemscore = item.Score;
+        //            var itemSecond = item.SecondTest;
+        //            if (itemscore > 0)
+        //            {
+        //                lso.TotalSecond += itemSecond;
+        //                lso.TotalScore += itemscore;
+        //                lso.TotalTested++;
+        //            }
+        //        }
+        //        lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
+        //        lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
+        //        lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
+        //        if (lso.TotalEmployee >= 10)
+        //        {
+        //            lso.Gold = lso.AverageScore + lso.RateTested;
+
+        //        }
+        //        else
+        //        {
+        //            lso.Gold = 0;
+        //        }
+
+        //        if (lso.TotalEmployee >= 0)
+        //        {
+        //            lsos.Add(lso);
+        //        }
+        //    }
+        //    lsos = lsos.OrderByDescending(o => o.Gold).ThenBy(x => x.AverageSecond).ThenByDescending(i => i.TotalEmployee).ToList();
+        //    for (int i = 0; i < lsos.Count; i++)
+        //    {
+        //        lsos[i].Order = i + 1;
+        //    }
+        //    datas.Data = FindByAccountNK();
+        //    datas.ListStoreOrder = lsos;
+        //    datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
+
+        //    return Ok(datas);
+        //}
 
         [HttpGet]
         public IHttpActionResult SearchVHC()
         {
-            var datas = new SearchModelVHC();
-
-            var SelectScoreVHC_Results = FindByAccount("VHC");
-
-            var groups = SelectScoreVHC_Results.GroupBy(x => x.Store);
-            var lsos = new List<StoreOrderView>();
-            foreach (var items in groups)
-            {
-                var lso = new StoreOrderView
-                {
-                    TotalEmployee = 0,
-                    AverageScore = 0,
-                    TotalScore = 0,
-                    TotalTested = 0,
-                    TotalLearned = 0,
-                    RateLearned = 0,
-                    RateTested = 0,
-                    SecondTest = 0,
-                    TotalComplete = 0
-                };
-                lso.TotalEmployee = items.Count();
-                foreach (var item in items)
-                {
-                    lso.StoreName = item.Store;
-                    var itemscore = item.Score;
-                    var itemSecond = item.SecondTest;
-                    if (itemscore > 0)
-                    {
-                        lso.TotalSecond += itemSecond;
-                        lso.TotalScore += itemscore;
-                        lso.TotalTested++;
-                    }
-                    if (item.IsLearned == "Yes")
-                    {
-                        lso.TotalLearned++;
-                    }
-                    if (item.IsComplete == "Yes")
-                    {
-                        lso.TotalComplete++;
-                    }
-                }
-                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
-                lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                lso.Gold = lso.AverageScore + lso.RateTested;
-                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                if (lso.TotalEmployee >= 5)
-                {
-                    lsos.Add(lso);
-                }
-            }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
-            for (int i = 0; i < lsos.Count; i++)
-            {
-                lsos[i].Order = i + 1;
-            }
-            datas.Data = FindByAccount("VHC");
-            datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
-
-            return Ok(datas);
+            return Ok(Search("VHC"));
         }
         [HttpGet]
         public IHttpActionResult SearchPICO()
         {
-            var datas = new SearchModelPICO();
+            return Ok(Search("PICO"));
+        }
 
-            var SelectScorePICO_Results = FindByAccount("PICO");
-
-            var groups = SelectScorePICO_Results.GroupBy(x => x.Store);
-            var lsos = new List<StoreOrderView>();
-            foreach (var items in groups)
-            {
-                var lso = new StoreOrderView
-                {
-                    TotalEmployee = 0,
-                    AverageScore = 0,
-                    TotalScore = 0,
-                    TotalTested = 0,
-                    TotalLearned = 0,
-                    RateLearned = 0,
-                    RateTested = 0,
-                    SecondTest = 0,
-                    TotalComplete = 0
-                };
-                lso.TotalEmployee = items.Count();
-                foreach (var item in items)
-                {
-                    lso.StoreName = item.Store;
-                    var itemscore = item.Score;
-                    var itemSecond = item.SecondTest;
-                    if (itemscore > 0)
-                    {
-                        lso.TotalSecond += itemSecond;
-                        lso.TotalScore += itemscore;
-                        lso.TotalTested++;
-                    }
-                    if (item.IsLearned == "Yes")
-                    {
-                        lso.TotalLearned++;
-                    }
-                    if (item.IsComplete == "Yes")
-                    {
-                        lso.TotalComplete++;
-                    }
-                }
-                lso.AverageScore = (lso.TotalScore / lso.TotalEmployee);
-                lso.AverageSecond = (lso.TotalSecond / lso.TotalEmployee);
-                lso.RateTested = decimal.Round(((decimal)lso.TotalTested / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                lso.Gold = lso.AverageScore + lso.RateTested;
-                lso.RateLearned = decimal.Round(((decimal)lso.TotalLearned / (decimal)lso.TotalEmployee) * 100, 2, MidpointRounding.AwayFromZero);
-                if (lso.TotalEmployee >= 5)
-                {
-                    lsos.Add(lso);
-                }
-            }
-            lsos = lsos.OrderByDescending(o => o.AverageScore).ThenByDescending(i => i.RateTested).ThenByDescending(i => i.RateLearned).ThenByDescending(i => i.TotalEmployee).ToList();
-            for (int i = 0; i < lsos.Count; i++)
-            {
-                lsos[i].Order = i + 1;
-            }
-            datas.Data = FindByAccount("PICO");
-            datas.ListStoreOrder = lsos;
-            datas.Dayupdate = _db.Dayupdates.OrderByDescending(x => x.ID).FirstOrDefault().Dateupdate;
-
-            return Ok(datas);
+        [HttpGet]
+        public IHttpActionResult SearchSAMNEC()
+        {
+            return Ok(Search("SAMNEC"));
         }
     }
 }

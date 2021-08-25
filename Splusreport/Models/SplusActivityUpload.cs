@@ -16,16 +16,18 @@ namespace Splusreport.Models
     {
         public int ID { get; set; }
         public string LoginID { get; set; }
+        public string MNV { get; set; }
         public string Jobgroup { get; set; }
         public string ActivityCode { get; set; }
         public string ActivityName { get; set; }
         public System.DateTime AttempStartdate { get; set; }
         public System.DateTime AttempEnddate { get; set; }
         public int Score { get; set; }
-        public int SecondTest { get; set; }
-        public int SecondLearn { get; set; }
+        public decimal SecondTest { get; set; }
+        public decimal SecondLearn { get; set; }
         public int TimesLearn { get; set; }
         public string IsLearned { get; set; }
+        public string IsTested { get; set; }
         public string IsComplete { get; set; }
     
 

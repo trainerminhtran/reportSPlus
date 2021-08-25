@@ -1,6 +1,5 @@
-﻿
-@{
-    ViewBag.Title = "Điện Máy Xanh";
+﻿@{
+    ViewBag.Title = "SAMNEC";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
@@ -23,7 +22,7 @@
             }
 
         .card-header {
-            background: #3fb8ff;
+            background: #00923f;
         }
 
         .card-title {
@@ -55,7 +54,7 @@
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <!-- Brand Logo -->
         <a href="../../index3.html">
-            <img src="../../dist/img/dien-may-xanh.png"
+            <img src="../../dist/img/logo-sammec.jpg"
                  alt="AdminLTE Logo"
                  class="brand-image">
         </a>
@@ -66,7 +65,7 @@
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
 
                 <div class="info">
-                    <a href="#" class="d-block">ADMIN DMX</a>
+                    <a href="#" class="d-block">ADMIN SAMNEC</a>
                 </div>
             </div>
 
@@ -75,17 +74,9 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                     <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
+
                     <li class="nav-item">
-                        <a href="/dmx/region" class="nav-link">
-                            <i class="nav-icon fas fa-chart-pie"></i>
-                            <p>
-                                Theo vùng miền
-                                <span class="right badge badge-danger">New</span>
-                            </p>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/dmx" class="nav-link">
+                        <a href="/mm" class="nav-link">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Chi tiết từng cửa hàng
@@ -101,11 +92,8 @@
 
     <div class="card-header-Title">
         <h2 class="card-title" style="margin: 0 auto;">
-           SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày <span id="dayupdate"></span>
-           
+            SAMSUNG PLUS THÁNG @DateTime.Now.Month - Report ngày <span id="dayupdate"></span>
         </h2>
-
-        
     </div>
     <!-- /.card-header -->
     <!-- Content Wrapper. Contains page content -->
@@ -130,7 +118,6 @@
                                         2. (Bằng điểm GOLD) Ưu tiên thời gian làm bài nhanh hơn
                                     </i>
                                     <br />
-                                   
                                 </div>
                                 <!-- /.card-header -->
                                 <div class="card-body">
@@ -171,17 +158,15 @@
     <script>
         $(document).ready(function () {
             var loading = new Loading();
-
             $.ajax({
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                url: "/api/Search/SearchDMX",
+                url: "/api/Search/SearchSAMNEC",
                 success: function (response) {
-                    $('#dayupdate').text = response.Dayupdate;
+                    $('#dayupdate').text(response.Dayupdate);
                     //Table nv
                     $("#nvdetailId").DataTable({
-
                         "lengthMenu": [25, 50, 75, 100],
                         "paging": true,
                         "searching": true,
@@ -205,7 +190,7 @@
                             }, {
                                 "data": "SecondLearn",
                                 "title": "Thời gian học bài (phút)"
-                            },{
+                            }, {
                                 "data": "IsLearned",
                                 "title": "Đã học"
                             }, {
@@ -236,8 +221,7 @@
                         "paging": true,
                         "searching": true,
                         "ordering": true,
-                        "order": [[1, "asc"]],
-                        "responsive": true,
+                        "order": [[1, "desc"]],"responsive": true,
                         "data": response.ListStoreOrder,
                         "columns": [
                             {
@@ -280,12 +264,7 @@
                 },
             }).done(function () {
                 loading.out()
-            });;
-
-
-
-
-
+            });
         });
 
 

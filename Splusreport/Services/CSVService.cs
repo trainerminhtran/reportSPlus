@@ -45,12 +45,20 @@ namespace Splusreport.Services
                     // Add separator if this isn't the first value
                     if (!firstColumn)
                         builder.Append(',');
-                    // Implement special handling for values that contain comma or quote
-                    // Enclose in quotes and double up any double quotes
+                // Implement special handling for values that contain comma or quote
+                // Enclose in quotes and double up any double quotes
+                if (value != null)
+                {
                     if (value.IndexOfAny(new char[] { '"', ',' }) != -1)
                         builder.AppendFormat("\"{0}\"", value.Replace("\"", "\"\""));
                     else
                         builder.Append(value);
+                }
+                else
+                {
+                    builder.Append("");
+                }
+                   
                     firstColumn = false;
                 }
                 row.LineText = builder.ToString();

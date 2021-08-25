@@ -153,6 +153,7 @@
     <Compile Include="Controllers\MMController.cs" />
     <Compile Include="Controllers\NKController.cs" />
     <Compile Include="Controllers\PICOController.cs" />
+    <Compile Include="Controllers\SamnecController.cs" />
     <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\VHCController.cs" />
     <Compile Include="Global.asax.cs">
@@ -395,6 +396,7 @@
     <Content Include="Views\NK\Index.cshtml" />
     <Content Include="Views\PICO\Index.cshtml" />
     <Content Include="Views\VHC\Index.cshtml" />
+    <Content Include="Views\Samnec\index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
